@@ -1,6 +1,5 @@
 # ComplyCube Android SDK Sample Application
 
-
 ## Pre requisites
 * AndroidX
 * API level 21 (Android 5.0) and above
@@ -18,7 +17,7 @@ Start by adding your access credentials for the ComplyCube SDK repository to the
 ```gradle
 artifactory_user= "USERNAME"
 artifactory_password= "ENCRYPTED PASS"
-artifactory_contextUrl= https://complycube.jfrog.io/artifactory
+artifactory_contextUrl= https://complycuberepo.jfrog.io/artifactory
 ```
 
 Then update your application build.gradle file with the ComplyCube SDK repository maven settings and SDK dependency
@@ -79,7 +78,7 @@ curl -X POST https://api.complycube.com/v1/tokens \
      -H 'Content-Type: application/json' \
      -d '{
           	"clientId":"CLIENT_ID",
-          	"referrer": "https://www.example.com/*"
+          	"appId": "com.complycube.sampleapp"
         }'
 ```
 
