@@ -257,12 +257,11 @@ If the SDK is misconfigured the flow builder will raise an exception when attemp
 
 The SDK provides the following language support
 
-Chinese (Simplified) - zh :cn:
-English - en :uk:
-French - fr :fr:
-German - de :de:
-Italian - it :it:
-Spanish - es :es:
+* English - en :uk:
+* French - fr :fr:
+* German - de :de:
+* Italian - it :it:
+* Spanish - es :es:
 
 ### Going Live
 
