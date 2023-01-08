@@ -1,24 +1,18 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
-// Added jFrog Artifactory plugin
 buildscript {
     ext.kotlin_version = '1.7.20'
     repositories {
-        mavenLocal()
         google()
         mavenCentral()
-        //jcenter()
     }
     dependencies {
-
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
     }
 }
-
 
 plugins {
     id 'com.android.application' version '7.3.1' apply false
     id 'com.android.library' version '7.3.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
-    id "com.jfrog.artifactory" version "4.16.1" apply true // jFrog
+    id "com.jfrog.artifactory" version "4.16.1" apply true
 }

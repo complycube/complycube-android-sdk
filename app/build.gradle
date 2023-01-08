@@ -5,18 +5,16 @@ plugins {
 }
 // Setup repositories and the jFrog
 repositories {
-    mavenLocal()
     mavenCentral()
     google()
     artifactory {
         contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
         resolve {
             repository {
-                repoKey = 'complycube-mobilesdk-gradle-dev'
+                repoKey = 'cc-gradle-release'
                 username = "${artifactory_user}"
                 password = "${artifactory_password}"
                 maven = true
-
             }
         }
     }
@@ -55,7 +53,7 @@ android {
 }
 
 dependencies {
-    implementation "com.complycube:sdk:+" // jfrog
+    implementation "com.complycube:sdk:1.8.+"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
