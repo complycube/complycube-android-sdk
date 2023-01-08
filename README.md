@@ -194,10 +194,10 @@ complycubeFlow.withCustomColors(customColors = SdkColors( primaryButtonColor = C
 ```
 | Appearence property | Description |
 | --- | ----------- |
-| ```primaryButtonColor``` | Secondary action button background colour |
+| ```primaryButtonColor``` | Primary action button background colour |
 | ```primaryButtonTextColor``` | Primary action button text colour |
 | ```primaryButtonBorderColor``` | Primary action button border colour |
-| ```secondaryButtonColor``` | Secondar button background colour |
+| ```secondaryButtonColor``` | Secondary button background colour |
 | ```secondaryButtonTextColor``` | Secondary action button text colour |
 | ```secondaryButtonBorderColor``` | Secondary action button border colour |
 | ```documentSelectorColor``` | Document type selection button colour |
