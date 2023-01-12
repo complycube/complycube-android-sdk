@@ -28,7 +28,7 @@ The ComplyCube Android SDK makes it quick and easy to build a frictionless custo
       - [Consent stage](#consent-stage)
       - [Document stage](#document-stage)
       - [Selfie photo and video stage](#selfie-photo-and-video-stage)
-      - [Proof of Address](#proof-of-address)
+      - [Proof of address stage](#proof-of-address-stage)
   * [Customizing appearance](#customizing-appearance)
   * [Result handling](#result-handling)
   * [Error handling](#error-handling)
@@ -291,7 +291,7 @@ var selfieVideo = SelfieVideo(isGuidanceEnabled = true, isMLAssistantEnabled = f
 
 > :warning: If you attempt to add both, the SDK will throw a ComplyCubeSDKException error stating `ConflictingStages`.
 
-##### Proof of Address
+##### Proof of address stage
 
 When requesting a proof of address document, you can set the allowed document type and whether the client can upload the document. When `useLiveCaptureOnly` is set to false, the client will be forced to perform a live capture.
 
