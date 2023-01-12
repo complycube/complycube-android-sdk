@@ -46,7 +46,7 @@ The ComplyCube Android SDK makes it quick and easy to build a frictionless custo
 
 **Liveness**: Our market-leading liveness detection provides accurate and extremely fast presence detection on your customers' selfies (3D Passive and Active) and documents to prevent fraud and protect your business. It detects and deters several spoofing vectors, including **printed photo attacks**, **printed mask attacks**, **video replay attacks**, and **3D mask attacks**.
 
-**Auto-capture**: Our UI screens attempt to auto-capture your customer's documents and selfies and run quality checks to ensure that only legible captures are processed by our authentication engine.
+**Auto-capture**: Our UI screens attempt to auto-capture your customer's documents and selfies and run quality checks to ensure that only legible captures are processed by our authentication service.
 
 **Branding & customization**: You can customize the experience by adding your brand colors and your own text. Furthermore, screens can be added and removed.
 
