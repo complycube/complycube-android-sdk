@@ -60,7 +60,7 @@ The ComplyCube Android SDK makes it quick and easy to build a frictionless custo
 
 * Android 5.0 (API level 21) and above
 * AndroidX
-* Kotlin 1.5+
+* Kotlin 1.5 and above
 
 ## Getting started
 
