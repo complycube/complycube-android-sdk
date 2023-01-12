@@ -4,7 +4,7 @@ The ComplyCube Android SDK makes it quick and easy to build a frictionless custo
 
 > :information_source: Please get in touch with your **Account Manger** or **[support](https://support.complycube.com/hc/en-gb/requests/new)** to get access to our Mobile SDK.
 
-> :warning: If you were on our previous generation SDK (deprecated), please migrate to this one. Get in touch with support if you have any questions.
+> :warning: If you were using previous generation SDK (deprecated), please migrate to this one. Get in touch with support if you have any questions.
 
 ## Table of contents
 
