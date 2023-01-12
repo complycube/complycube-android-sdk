@@ -40,7 +40,10 @@ The ComplyCube Android SDK makes it quick and easy to build a frictionless custo
 
 ## Features
 
-<img src="https://assets.complycube.com/images/complycube-android-sdk-github.jpg" alt="ComplyCube Android SDK illustrations"/>
+<img 
+ src="https://assets.complycube.com/images/complycube-android-sdk-github.jpg"
+ alt="ComplyCube Android SDK illustrations"
+/>
 
 **Native & intuitive UI**: We provide mobile-native screens that guide your customers in capturing their selfies, video recordings, government-issued IDs (such as passports, driving licenses, and residence permits), and proof of address documents (bank statements and utility bills)
 
@@ -67,8 +70,11 @@ The ComplyCube Android SDK makes it quick and easy to build a frictionless custo
 Get started with our [user guide](https://doc.complycube.com) for an overview of our core platform and its multiple features, or browse the [API reference](https://docs.complycube.com/api-reference) for fine-grained documentation of all our services.
 
 <p align="center">
-<img src="https://2744061101-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-M7DZEw-mdC0afAU1zYm%2Fuploads%2FXpYpd1Aju7dRruchnDLc%2Fdocumentation-Mobile%20SDK-min.png?alt=media&token=77aa65b2-da20-44eb-b458-ac7bd2d0586b" alt="ComplyCube Mobile SDK integration flow"/>
-    Mobile SDK integration flow
+<img 
+	src="https://assets.complycube.com/images/github-mobile-sdk-flow.png" 
+	alt="ComplyCube Mobile SDK integration flow"
+/>
+Mobile SDK integration flow
 </p>
 
 
