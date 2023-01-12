@@ -4,7 +4,7 @@ The ComplyCube Android SDK makes it quick and easy to build a frictionless custo
 
 > :information_source: Please get in touch with your **Account Manger** or **[support](https://support.complycube.com/hc/en-gb/requests/new)** to get access to our Mobile SDK.
 
-> :warning: If you were using previous generation SDK (deprecated), please migrate to this one. Get in touch with support if you have any questions.
+> :warning: If you were on our previous generation SDK (deprecated), please migrate to this one. Get in touch with support if you have any questions.
 
 ## Table of contents
 
@@ -23,27 +23,24 @@ The ComplyCube Android SDK makes it quick and easy to build a frictionless custo
     + [Example request](#example-request-2)
   * [6. Setup webhooks and retrieve results](#6-setup-webhooks-and-retrieve-results)
 - [Customization](#customization)
-  * [Customizing stages](#customizing-stages)
+  * [Stages](#stages)
       - [Welcome stage](#welcome-stage)
       - [Consent stage](#consent-stage)
       - [Document stage](#document-stage)
       - [Selfie photo and video stage](#selfie-photo-and-video-stage)
       - [Proof of address stage](#proof-of-address-stage)
-  * [Customizing appearance](#customizing-appearance)
-  * [Result handling](#result-handling)
-  * [Error handling](#error-handling)
-    + [Runtime errors](#runtime-errors)
-    + [Invalid configuration exceptions](#invalid-configuration-exceptions)
+  * [Appearance](#appearance)
   * [Localization](#localization)
-  * [Going live](#going-live)
-  * [Additional info](#additional-info)
+- [Result handling](#result-handling)
+- [Error handling](#error-handling)
+  * [Runtime errors](#runtime-errors)
+  * [Invalid configuration exceptions](#invalid-configuration-exceptions)
+- [Going live](#going-live)
+- [Additional info](#additional-info)
 
 ## Features
 
-<img 
- src="https://assets.complycube.com/images/complycube-android-sdk-github.jpg"
- alt="ComplyCube Android SDK illustrations"
-/>
+<img src="https://assets.complycube.com/images/complycube-android-sdk-github.jpg" alt="ComplyCube Android SDK illustrations"/>
 
 **Native & intuitive UI**: We provide mobile-native screens that guide your customers in capturing their selfies, video recordings, government-issued IDs (such as passports, driving licenses, and residence permits), and proof of address documents (bank statements and utility bills)
 
@@ -70,11 +67,8 @@ The ComplyCube Android SDK makes it quick and easy to build a frictionless custo
 Get started with our [user guide](https://doc.complycube.com) for an overview of our core platform and its multiple features, or browse the [API reference](https://docs.complycube.com/api-reference) for fine-grained documentation of all our services.
 
 <p align="center">
-<img 
-	src="https://assets.complycube.com/images/github-mobile-sdk-flow.png" 
-	alt="ComplyCube Mobile SDK integration flow"
-/>
-Mobile SDK integration flow
+<img src="https://2744061101-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-M7DZEw-mdC0afAU1zYm%2Fuploads%2FXpYpd1Aju7dRruchnDLc%2Fdocumentation-Mobile%20SDK-min.png?alt=media&token=77aa65b2-da20-44eb-b458-ac7bd2d0586b" alt="ComplyCube Mobile SDK integration flow"/>
+    Mobile SDK integration flow
 </p>
 
 
@@ -228,7 +222,7 @@ Your **mobile backend** can retrieve all check results using our API.
 
 ## Customization
 
-### Customizing stages
+### Stages
 
 Each stage in the flow can be customized to create the ideal journey for your clients.
 
@@ -308,7 +302,7 @@ var poaStage = ProofOfAddress(UtilityBill(),BankStatement(),
         )
 ```
 
-### Customizing appearance
+### Appearance
 
 The SDK allows you to set colors to match your existing application or brand. You can customize the colors by setting the relevant values when building your flow. 
 
@@ -333,7 +327,17 @@ complycubeFlow.withCustomColors(customColors = SdkColors( primaryButtonColor = C
 | ```headingTextColor``` | Title heading text color |
 | ```subheadingTextColor``` | Subheading text color |
 
-### Result handling
+### Localization
+
+The SDK provides the following language support
+
+* English - `en` :uk:
+* French - `fr` :fr:
+* German - `de` :de:
+* Italian - `it` :it:
+* Spanish - `es` :es:
+
+## Result handling
 
 When initializing your client flow, you will need to register a result handler to process the outcome of the flow.
 
@@ -355,9 +359,9 @@ For example, our default flow, which include an Identity Document, Selfie (Live 
     (StageResult.Document.Id, StageResult.LivePhoto.Id, StageResult.ProofOfAddress.Id)
 ```
 
-### Error handling
+## Error handling
 
-#### Runtime errors
+### Runtime errors
 
 If the SDK experiences any issues, the error callback will be triggered with one of the following exceptions.
 
@@ -367,7 +371,7 @@ If the SDK experiences any issues, the error callback will be triggered with one
 | ```ComplyCubeResult.Error.TokenExpired``` | The token used to initialize the SDK has expired. Create a new SDK token and restart the flow. |
 | ```ComplyCubeResult.Error.Unknown``` | An unexpected error has occured. If this keeps occurring, let us know about it. |
 
-#### Invalid configuration exceptions 
+### Invalid configuration exceptions 
 
 If the SDK is misconfigured, the flow builder will raise an exception when attempting to launch.
 
@@ -380,20 +384,10 @@ If the SDK is misconfigured, the flow builder will raise an exception when attem
 | ```ComplyCubeSDKException.StageSettingConflict``` | If `useLiveCaptureOnly` is false, guidance must be enabled. |
 | ```ComplyCubeSDKException.Unknown``` | An unexpected error has occured. If this keeps occurring, let us know about it. |
 
-### Localization
-
-The SDK provides the following language support
-
-* English - `en` :uk:
-* French - `fr` :fr:
-* German - `de` :de:
-* Italian - `it` :it:
-* Spanish - `es` :es:
-
-### Going live
+## Going live
 
 Check out our handy [integration checklist here](https://docs.complycube.com/documentation/guides/integration-checklist) before you go live.
 
-### Additional info
+## Additional info
 
 You can find our full [API reference here](https://docs.complycube.com/api-reference), and our guides and example flows can be found [here](https://docs.complycube.com/documentation/).
