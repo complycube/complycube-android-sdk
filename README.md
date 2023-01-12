@@ -158,7 +158,7 @@ The response will contain an id (the Client ID). It is required for the next ste
 **SDK Tokens** enable clients to securely send personal data from your **mobile app** to ComplyCube.
 [To learn more about our SDK Token endpoint](https://docs.complycube.com/api-reference/other-resources/tokens).
 
-> You must generate a new token each time you initialise the ComplyCube Web SDK.
+> You must generate a new token each time you initialize the ComplyCube Web SDK.
 
 #### Example request
 
@@ -228,7 +228,7 @@ Each stage in the flow can be customized to create the ideal journey for your cl
 
 ##### Welcome stage
 
-This screen allows you to set a custom title and informative message to inform your customers about the KYC/identity verification process in more detail.
+This is the first screen of the flow. It displays a welcome message and a summary of the stages you have configured for the client. If you would like to use a custom title and message, you can set them as follows:
 
 
 ``` kotlin
@@ -249,15 +249,15 @@ var consentStage = Consent( title = "Custom Consent Screen Title")
 
 This stage allows clients to select the type of identity document they would like to submit. You can customize these screens to:
 
-* Limit the scope of document types the client can select e.g. Passport only.
+* Limit the scope of document types the client can select, e.g., Passport only.
 * Set the document issuing countries they are allowed for each document type.
 * Add or remove automated capture using smart assistance.
 * Show or hide the instruction screens before capture.
 * Set a retry limit to allow clients to progress the journey regardless of capture quality.
 
-> If you provide only one document type, the document type selection screen will be skipped. If you provide only a single country for a given document type, the country selection screen will be skipped.
+> If you provide only one document type, the document type selection screen will be skipped. The country selection screen will be skipped if you provide only a single country for a given document type.
 
-By enabling or disabling guidance, you can remove the information screens shown before camera captures. You should only consider omitting this if you have clearly informed your customer of the capture steps required.
+You can remove the information screens shown before camera captures by enabling or disabling guidance. You should only consider omitting this if you have clearly informed your customer of the capture steps required.
 
 > :warning: Please note the `retryLimit` you set here will take precedence over the retry limit that has been set globally in the [developer console](https://portal.complycube.com/automations).
 
@@ -278,6 +278,7 @@ var complycubeFlow = ComplyCubeSdk.Builder(this, callback= ...)
 ```
 
 ##### Selfie photo and video stage
+
 You can request a selfie photo ([live photo](https://docs.complycube.com/api-reference/live-photos)) capture or video ([live video](https://docs.complycube.com/api-reference/live-videos)) capture from your customer. 
 
 ``` kotlin
@@ -289,7 +290,7 @@ or
 var selfieVideo = SelfieVideo(isGuidanceEnabled = true, isMLAssistantEnabled = false)
 ```
 
-> :warning: If you attempt to add both, the SDK will throw a ComplyCubeSDKException error stating `ConflictingStages`.
+> :warning: If you attempt to add both, the SDK will throw a `ComplyCubeSDKException` error stating `ConflictingStages`.
 
 ##### Proof of address stage
 
@@ -329,7 +330,7 @@ complycubeFlow.withCustomColors(customColors = SdkColors( primaryButtonColor = C
 
 ### Localization
 
-The SDK provides the following language support
+The SDK provides the following language support:
 
 * English - `en` :uk:
 * French - `fr` :fr:
@@ -351,9 +352,9 @@ var complycubeFlow = ComplyCubeSdk.Builder(this) { flowResult ->
         }
 ```
 
-When the outcome is a `Result.Success`, you can start creating [check requests](https://docs.complycube.com/api-reference/checks/create-a-check) using the captured data. The IDs of the uploaded resources are returned in the `stages` property.
+When the outcome is a `Result.Success`, you can create [check requests](https://docs.complycube.com/api-reference/checks/create-a-check) using the captured data. The IDs of the uploaded resources are returned in the `stages` property.
 
-For example, our default flow, which include an Identity Document, Selfie (Live Photo), and Proof of Address, would have a stages collection that looks like this.
+For example, our default flow, which includes an Identity Document, Selfie (Live Photo), and Proof of Address, would have a stages collection that looks like this.
 
 ```kotlin
     (StageResult.Document.Id, StageResult.LivePhoto.Id, StageResult.ProofOfAddress.Id)
