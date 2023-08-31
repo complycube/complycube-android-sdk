@@ -11,30 +11,37 @@ The ComplyCube Android SDK makes it quick and easy to build a frictionless custo
 - [Features](#features)
 - [Requirements](#requirements)
 - [Getting started](#getting-started)
-  * [1. Installing the SDK](#1-installing-the-sdk)
-  * [2. Creating a client](#2-creating-a-client)
-    + [Example request](#example-request)
-    + [Example response](#example-response)
-  * [3. Creating an SDK token](#3-creating-an-sdk-token)
-    + [Example request](#example-request-1)
-    + [Example response](#example-response-1)
-  * [4. Initialize a flow with default settings](#4-initialize-a-flow-with-default-settings)
-  * [5. Perform checks](#5-perform-checks)
-    + [Example request](#example-request-2)
-  * [6. Setup webhooks and retrieve results](#6-setup-webhooks-and-retrieve-results)
+  - [1. Installing the SDK](#1-installing-the-sdk)
+  - [2. Creating a client](#2-creating-a-client)
+    - [Example request](#example-request)
+    - [Example response](#example-response)
+  - [3. Creating an SDK token](#3-creating-an-sdk-token)
+    - [Example request](#example-request-1)
+    - [Example response](#example-response-1)
+  - [4. Initialize an SDK flow](#4-initialize-an-sdk-flow)
+  - [5. Perform checks](#5-perform-checks)
+    - [Example request](#example-request-2)
+  - [6. Setup webhooks and retrieve results](#6-setup-webhooks-and-retrieve-results)
 - [Customization](#customization)
-  * [Stages](#stages)
-      - [Welcome stage](#welcome-stage)
-      - [Consent stage](#consent-stage)
-      - [Document stage](#document-stage)
-      - [Selfie photo and video stage](#selfie-photo-and-video-stage)
-      - [Proof of address stage](#proof-of-address-stage)
-  * [Appearance](#appearance)
-  * [Localization](#localization)
-- [Result handling](#result-handling)
-- [Error handling](#error-handling)
-  * [Runtime errors](#runtime-errors)
-  * [Invalid configuration exceptions](#invalid-configuration-exceptions)
+  - [Stages](#stages)
+    - [Welcome stage](#welcome-stage)
+    - [Consent stage](#consent-stage)
+    - [Document stage](#document-stage)
+    - [Selfie photo and video stage](#selfie-photo-and-video-stage)
+    - [Proof of address stage](#proof-of-address-stage)
+    - [Completion stage](#completion-stage)
+  - [Look and feel](#look-and-feel)
+  - [Localization](#localization)
+  - [Callback Handling](#callback-handling)
+    - [Result handling](#result-handling)
+    - [Cancellation handling](#cancellation-handling)
+    - [Error handling](#error-handling)
+      - [Error results](#error-results)
+      - [Invalid configuration exceptions](#invalid-configuration-exceptions)
+- [Events tracking](#events-tracking)
+- [Custom event handler](#custom-event-handler)
+- [Token expiry Handler](#token-expiry-handler)
+- [NFC capture](#nfc-capture)
 - [Going live](#going-live)
 - [Additional info](#additional-info)
 
@@ -58,9 +65,9 @@ The ComplyCube Android SDK makes it quick and easy to build a frictionless custo
 
 ## Requirements
 
-* Android 5.0 (API level 21) and above
-* AndroidX
-* Kotlin 1.5 and above
+- Android 5.0 (API level 21) and above
+- AndroidX
+- Kotlin 1.5 and above
 
 ## Getting started
 
@@ -70,7 +77,6 @@ Get started with our [user guide](https://doc.complycube.com) for an overview of
 <img src="https://2744061101-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2F-M7DZEw-mdC0afAU1zYm%2Fuploads%2FXpYpd1Aju7dRruchnDLc%2Fdocumentation-Mobile%20SDK-min.png?alt=media&token=77aa65b2-da20-44eb-b458-ac7bd2d0586b" alt="ComplyCube Mobile SDK integration flow"/>
     Mobile SDK integration flow
 </p>
-
 
 ### 1. Installing the SDK
 
@@ -101,7 +107,6 @@ repositories {
                 username = "${artifactory_user}"
                 password = "${artifactory_password}"
                 maven = true
-
             }
         }
     }
@@ -117,7 +122,7 @@ dependencies {
 
 Before launching the SDK, your app must first [create a client](https://docs.complycube.com/api-reference/clients/create-a-client) using the ComplyCube API.
 
-A client represents the individual on whom you need to perform identity verification checks on. A client is required to generate an SDK token. 
+A client represents the individual on whom you need to perform identity verification checks on. A client is required to generate an SDK token.
 
 This must be done on your **mobile app backend** server.
 
@@ -125,7 +130,7 @@ This must be done on your **mobile app backend** server.
 
 ```bash
 curl -X POST https://api.complycube.com/v1/clients \
-     -H 'Authorization: <YOUR_API_KEY>' \
+     -H ' Authorization: <YOUR_API_KEY>' \
      -H 'Content-Type: application/json' \
      -d '{  "type": "person",
             "email": "john.doe@example.com",
@@ -137,6 +142,7 @@ curl -X POST https://api.complycube.com/v1/clients \
 ```
 
 #### Example response
+
 The response will contain an id (the Client ID). It is required for the next step.
 
 ```json
@@ -164,46 +170,49 @@ The response will contain an id (the Client ID). It is required for the next ste
 
 ```bash
 curl -X POST https://api.complycube.com/v1/tokens \
-     -H 'Authorization: <YOUR_API_KEY>' \
+     -H ' Authorization: <YOUR_API_KEY>' \
      -H 'Content-Type: application/json' \
      -d '{
-          	"clientId":"CLIENT_ID",
-          	"appId": "com.complycube.sampleapp"
+            "clientId":"CLIENT_ID",
+            "appId": "com.complycube.sampleapp"
          }'
 ```
 
 #### Example response
+
 ```json
 {
     "token": "<CLIENT_TOKEN>"
 }
 ```
 
-### 4. Initialize a flow with default settings
+### 4. Initialize an SDK flow
 
-Now you can initialize a flow with the default settings.
+Now you can initialize a flow with the default settings of a Document, Selfie and Proof of Address capture with assistance enabled.
 
 ```kotlin
 var complycubeFlow = ComplyCubeSdk.Builder(this, callback= ...)
                         .withSDKToken("SDK_Token")
-                        
+                        .withClientId("CLIENT_ID")
 complycubeFlow.start()
 ```
 
 ### 5. Perform checks
 
-Using the `StageResults` returned by the flow, you can trigger your **mobile backend** to run the necessary checks on your client. 
+Using the `StageResults` returned by the flow, you can trigger your **mobile backend** to run the necessary checks on your client.
 
 For example, use the properties:
 
-* `StageResult.Document.Id` to run a document check
-* `StageResult.Document.Id` and `StageResult.LivePhoto.Id` to run an identity check
+- `StageResult.Document.Id` to run a document check
+- `StageResult.Document.Id` and `StageResult.LivePhoto.Id` to run an identity check
+- `StageResult.Document.Id` and `StageResult.LiveVideo.Id` to run an enhanced identity check
+- `StageResult.ProofOfAddress.Id` to run a proof of address check
 
 #### Example request
 
 ```curl
 curl -X POST https://api.complycube.com/v1/checks \
-     -H 'Authorization: <YOUR_API_KEY>' \
+     -H ' Authorization: <YOUR_API_KEY>' \
      -H 'Content-Type: application/json' \
      -d '{
             "clientId":"CLIENT_ID",
@@ -226,130 +235,193 @@ Your **mobile backend** can retrieve all check results using our API.
 
 Each stage in the flow can be customized to create the ideal journey for your clients.
 
-##### Welcome stage
+The snippet below demonstrates how you can set up a customized flow using the ComplyCube SDK
+
+```kotlin
+var complycubeFlow = ComplyCubeSdk.Builder(this, callback = ...)
+                        .withSDKToken("SDK_Token")
+                        .withClientId("CLIENT_ID")
+                        .withStages(
+                            Welcome(...),
+                            Consent(...),
+                            Document(...),
+                            SelfiePhoto(...),
+                            ProofOfAddress(...)
+                            Complete(...)
+                        )
+                        .withLookAndFeel(...) 
+                        .withCustomLanguage(...)
+complycubeFlow.start()
+```
+
+#### Welcome stage
 
 This is the first screen of the flow. It displays a welcome message and a summary of the stages you have configured for the client. If you would like to use a custom title and message, you can set them as follows:
 
-
 ``` kotlin
-var welcomeStage = Welcome( title = "Custom Screen Title", message = "Custom welcome message")
+var welcomeStage = Welcome(
+                       title = "Custom Screen Title",
+                       message = "Custom welcome message" )
 ```
 
-> The welcome stage will always default to show as the first screen. 
+> The welcome stage will always default to show as the first screen.
 
-##### Consent stage
+#### Consent stage
 
 You can optionally add this stage to enforce explicit consent collection before the client can progress in the flow. The consent screen allows you to set a custom title.
 
 ``` kotlin
-var consentStage = Consent( title = "Custom Consent Screen Title")
+var consentStage = Consent(
+                       title = "Custom Consent Screen Title"
+                   )
 ```
 
-##### Document stage
+#### Document stage
 
 This stage allows clients to select the type of identity document they would like to submit. You can customize these screens to:
 
-* Limit the scope of document types the client can select, e.g., Passport only.
-* Set the document issuing countries they are allowed for each document type.
-* Add or remove automated capture using smart assistance.
-* Show or hide the instruction screens before capture.
-* Set a retry limit to allow clients to progress the journey regardless of capture quality.
+- Limit the scope of document types the client can select, e.g., Passport only.
+- Set the document issuing countries they are allowed for each document type.
+- Show or hide the instruction screens before capture.
+- Set a retry limit to allow clients to progress the journey regardless of capture quality.
 
 > If you provide only one document type, the document type selection screen will be skipped. The country selection screen will be skipped if you provide only a single country for a given document type.
 
 You can remove the information screens shown before camera captures by enabling or disabling guidance. You should only consider omitting this if you have clearly informed your customer of the capture steps required.
 
-> :warning: Please note the `retryLimit` you set here will take precedence over the retry limit that has been set globally in the [developer console](https://portal.complycube.com/automations).
+> :warning: Please note the `retryLimit` you set here will take precedence over the retry limit that has been set globally in the [Web Portal](https://portal.complycube.com/automations).
 
 ``` kotlin
 var documentStage = Document (
-            Passport(),DrivingLicence((GB)), 
-            isGuidanceEnabled = true,
-            retryLimit = 3
-        )
+                        /* Set document types and limit the enabled countries */
+                        Passport(),DrivingLicence((Country.GB, Country.US)),
+
+                        /* Enable or disable additional guidance for the user */
+                        isGuidanceEnabled = true,
+
+                        /* Enable or disable the ability to upload an image from file */
+                        useLiveCaptureOnly = true,
+
+                        /* Set the number of retry attempts before the image is 
+                        uploaded without soft checks */
+                        retryLimit = 3
+                    )
 ```
 
-If you want to set the countries across all document types (apart from passports), you can set the top-level country lists at the flow level.
+#### Selfie photo and video stage
 
-```kotlin
-var complycubeFlow = ComplyCubeSdk.Builder(this, callback= ...)
-                        .withCountries(Country.GB, Country.US)
-                        ....
-```
+You can request a selfie photo ([live photo](https://docs.complycube.com/api-reference/live-photos)) capture or video ([live video](https://docs.complycube.com/api-reference/live-videos)) capture from your customer.
 
-##### Selfie photo and video stage
+There are two types of Selfie stage that you can add to your Flow stages, a ```SelfiePhoto``` or ```SelfieVideo```
 
-You can request a selfie photo ([live photo](https://docs.complycube.com/api-reference/live-photos)) capture or video ([live video](https://docs.complycube.com/api-reference/live-videos)) capture from your customer. 
+SelfiePhoto stage will take a picture of the customer and perform fast fail checks before confirming with the customer they are happy to submit.
 
 ``` kotlin
-var selfiePhoto = SelfiePhoto(isGuidanceEnabled = true, isMLAssistantEnabled = false)
+var selfiePhoto = SelfiePhoto(
+                    /* Enable or disable a smart assistant or have the 
+                    user manually capture the image */
+                    isMLAssistantEnabled = false
+                  )
 ```
+
 or
 
+SelfieVideo stage will take a video of the customer with an active challenge the customer has to complete.
+
 ``` kotlin
-var selfieVideo = SelfieVideo(isGuidanceEnabled = true, isMLAssistantEnabled = false)
+var selfieVideo = SelfieVideo(
+                    /* Enable or disable a smart assistant or have the 
+                    user manually capture the image */
+                    isMLAssistantEnabled = false
+                  )
 ```
 
 > :warning: If you attempt to add both, the SDK will throw a `ComplyCubeSDKException` error stating `ConflictingStages`.
 
-##### Proof of address stage
+#### Proof of address stage
 
 When requesting a proof of address document, you can set the allowed document type and whether the client can upload the document. When `useLiveCaptureOnly` is set to false, the client will be forced to perform a live capture.
 
 ```kotlin
-var poaStage = ProofOfAddress(UtilityBill(),BankStatement(), 
-            useLiveCaptureOnly = false, 
-            ...
-        )
+var poaStage = ProofOfAddress(
+                /* A list of supported document types that can be submitted */
+                UtilityBill(),BankStatement(),
+                
+                /* Enable or disable the ability to upload an image from file */
+                useLiveCaptureOnly = false,
+                ...
+               )
 ```
 
-### Appearance
+#### Completion stage
 
-The SDK allows you to set colors to match your existing application or brand. You can customize the colors by setting the relevant values when building your flow. 
+You can add an optional completion stage at the end of the process and let the customer know the process has been completed.
 
 ```kotlin
-complycubeFlow.withCustomColors(customColors = SdkColors( primaryButtonColor = Color.RED))
+var completionStage = Complete(
+                          title: "Thank you!",
+                          message: "Your KYC submission has been completed, our onboarding team will come back to you shortly" )
 ```
 
-| Appearence property | Description |
+### Look and feel
+
+The SDK allows you to set colors to match your existing application or brand. You can customize the colors by setting the relevant values when building your flow.
+
+```kotlin
+complycubeFlow.withLookAndFeel(lookAndFeel = LookAndFeel { primaryButtonColor = Color.RED })
+```
+
+| Appearance property | Description |
 | --- | ----------- |
-| ```primaryButtonColor``` | Primary action button background color |
-| ```primaryButtonTextColor``` | Primary action button text color |
-| ```primaryButtonBorderColor``` | Primary action button border color |
-| ```secondaryButtonColor``` | Secondary button background color |
-| ```secondaryButtonTextColor``` | Secondary action button text color |
-| ```secondaryButtonBorderColor``` | Secondary action button border color |
-| ```documentSelectorColor``` | Document type selection button color |
-| ```documentSelectorBorderColor``` | Document type selection button border color |
-| ```documentSelectorIconColor``` | Document type icon color |
-| ```documentSelectorTitleTextColor``` | Document type title text color |
-| ```documentSelectorDescriptionTextColor``` | Document type description text color |
-| ```bodyTextColor``` | Screen body text color |
-| ```headingTextColor``` | Title heading text color |
-| ```subheadingTextColor``` | Subheading text color |
+| ```primaryButtonColor``` | Primary action button background color. |
+| ```primaryButtonTextColor``` | Primary action button text color. |
+| ```primaryButtonBorderColor``` | Primary action button border color. |
+| ```secondaryButtonColor``` | Secondary button background color. |
+| ```secondaryButtonTextColor``` | Secondary action button text color. |
+| ```secondaryButtonBorderColor``` | Secondary action button border color. |
+| ```documentSelectorColor``` | Document type selection button color. |
+| ```documentSelectorBorderColor``` | Document type selection button border color. |
+| ```documentSelectorIconColor``` | Document type icon color. |
+| ```documentSelectorTitleTextColor``` | Document type title text color. |
+| ```documentSelectorDescriptionTextColor``` | Document type description text color. |
+| ```bodyTextColor``` | Screen body text color. |
+| ```headingTextColor``` | Title heading text color. |
+| ```subheadingTextColor``` | Subheading text color. |
+| ```uiInterfaceStyle``` | Set the SDK to use dark mode (```.dark```),  light mode (```.light```), or system inherited (```.inherited```). |
 
 ### Localization
 
 The SDK provides the following language support:
 
-* English - `en` :uk:
-* French - `fr` :fr:
-* German - `de` :de:
-* Italian - `it` :it:
-* Spanish - `es` :es:
+- Arabic - `ar` :united_arab_emirates:
+- Dutch - `nl` :netherlands:
+- English - `en` :uk:
+- French - `fr` :fr:
+- German - `de` :de:
+- Hindi - `hi` :india:
+- Italian - `it` :it:
+- Norwegian - `no` :norway:
+- Polish - `po` :poland:
+- Portuguese - `pt` :portugal:
+- Spanish - `es` :es:
+- Swedish - `sv` :sweden:
+- Chinese (Simplified) - `zh` :cn:
 
-## Result handling
+### Callback Handling
+
+#### Result handling
 
 When initializing your client flow, you will need to register a result handler to process the outcome of the flow.
 
 ```kotlin
-var complycubeFlow = ComplyCubeSdk.Builder(this) { flowResult ->
-            when(flowResult){
-                is ComplyCubeResult.Error -> // Your callback code here
-                is ComplyCubeResult.Success -> // Your callback code here
-                is ComplyCubeResult.Canceled -> // Your callback code here
-            }
-        }
+var complycubeFlow = ComplyCubeSdk.Builder(this) {
+    flowResult ->
+    when(flowResult) {
+        is Result.Error -> // Your callback code here
+        is Result.Success -> // Your callback code here
+        is Result.Canceled -> // Your callback code here
+    }
+}
 ```
 
 When the outcome is a `Result.Success`, you can create [check requests](https://docs.complycube.com/api-reference/checks/create-a-check) using the captured data. The IDs of the uploaded resources are returned in the `stages` property.
@@ -357,33 +429,139 @@ When the outcome is a `Result.Success`, you can create [check requests](https://
 For example, our default flow, which includes an Identity Document, Selfie (Live Photo), and Proof of Address, would have a stages collection that looks like this.
 
 ```kotlin
-    (StageResult.Document.Id, StageResult.LivePhoto.Id, StageResult.ProofOfAddress.Id)
+( // ID of Identity Document uploaded
+  StageResult.Document.Id, 
+  // ID of Live Photo uploaded as Selfie
+  StageResult.LivePhoto.Id, 
+  // ID of Proof of Address uploaded.
+  StageResult.ProofOfAddress.Id)
 ```
 
-## Error handling
+#### Cancellation handling
 
-### Runtime errors
+If the client exits the SDK flow before completion, the description provided by `Result.Cancelled` will specify the reason.
 
-If the SDK experiences any issues, the error callback will be triggered with one of the following exceptions.
+It's possible that the client advanced as far as the upload stage before choosing to cancel. In such cases, some data may already have been uploaded to their record.
+
+#### Error handling
+
+##### Error results
+
+If the SDK experiences any issues, the error callback will contain one of the following error codes
 
 | Error | Description |
 | --- | ----------- |
-| ```ComplyCubeResult.Error.NotAuthorised``` | The SDK has attempted a request to an endpoint you are not authorized to use.|
-| ```ComplyCubeResult.Error.TokenExpired``` | The token used to initialize the SDK has expired. Create a new SDK token and restart the flow. |
-| ```ComplyCubeResult.Error.Unknown``` | An unexpected error has occured. If this keeps occurring, let us know about it. |
+| ```ComplyCubeErrorCode.NotAuthorized``` | The SDK has attempted a request to an endpoint you are not authorized to use.|
+| ```ComplyCubeErrorCode.ExpiredToken``` | The token used to initialize the SDK has expired. Create a new SDK token and restart the flow. |
+| ```ComplyCubeErrorCode.DocumentMandatory``` | A **Document stage** is mandatory with the currently configured stages. |
+| ```ComplyCubeErrorCode.JailBroken``` | The SDK cannot be launched on this device as it has been compromised. |
+| ```ComplyCubeErrorCode.NoDocumentTypes``` | A **Document stage** has been initialized without setting document types. |
+| ```ComplyCubeErrorCode.BiometricStageCount``` | The configuration provided contains duplicate **Selfie photo** or **Selfie video** stages. |
+| ```ComplyCubeErrorCode.UploadError``` | An error occurred during the upload document or selfie upload process. |
+| ```ComplyCubeErrorCode.InvalidCountryCode``` | An invalid country code is provided. |
+| ```ComplyCubeErrorCode.UnsupportedCountryTypeCombination``` | An unsupported country code is provided for a specific document type. |
+| ```ComplyCubeErrorCode.Unknown``` | An unexpected error has occurred. If this keeps occurring, let us know about it. |
+| ```ComplyCubeErrorCode.FlowError``` | An unrecoverable error occurred during the flow.|
 
-### Invalid configuration exceptions 
+##### Invalid configuration exceptions
 
-If the SDK is misconfigured, the flow builder will raise an exception when attempting to launch.
+If the SDK is misconfigured, attempting to launch the flow builder will trigger an exception. These exceptions can be caught and handled using a catch clause.
 
 | Error | Description |
 | --- | ----------- |
 | ```ComplyCubeSDKException.MissingToken``` | Attempted to launch the SDK without setting the SDK token. |
 | ```ComplyCubeSDKException.DuplicateStages``` | Launch configuration contains duplicate stages. |
-| ```ComplyCubeSDKException.ConflictingStages``` | Configuration contains both a Live Video and Live Photo stage.|
-| ```ComplyCubeSDKException.InvalidDeviceSetup``` | User device has been flagged as jailbroken |
-| ```ComplyCubeSDKException.StageSettingConflict``` | If `useLiveCaptureOnly` is false, guidance must be enabled. |
-| ```ComplyCubeSDKException.Unknown``` | An unexpected error has occured. If this keeps occurring, let us know about it. |
+| ```ComplyCubeSDKException.UploadRequireGuidance``` | If `useLiveCaptureOnly` is set to `false`, enabling the guidance feature is required. This can be done by setting `isGuidanceEnabled` to `true`.|
+| ```ComplyCubeSDKException.Unknown``` | An unexpected error has occurred. If this keeps occurring, let us know about it. |
+
+## Events tracking
+
+Below is the list of events being tracked by the SDK:
+
+| Event | Description |
+| --- | --- |
+| ```BIOMETRICS_STAGE_SELFIE_CAMERA``` | The client reached capture camera for a selfie. |
+| ```BIOMETRICS_STAGE_SELFIE_CAMERA_MANUAL_MODE``` | The client reached manual capture camera for a selfie. |
+| ```BIOMETRICS_STAGE_SELFIE_CAPTURE_GUIDANCE``` | The client has reached the guidance screen showing how to take a good selfie. |
+| ```BIOMETRICS_STAGE_SELFIE_CHECK_QUALITY``` | The client has reached the photo review screen after capturing a selfie photo.. |
+| ```BIOMETRICS_STAGE_VIDEO_ACTION_ONE``` | The client reached the first action in a video selfie |
+| ```BIOMETRICS_STAGE_VIDEO_ACTION_TWO``` | The client reached the second action in a video selfie. |
+| ```BIOMETRICS_STAGE_VIDEO_CAMERA``` | The client reached capture camera for a video selfie. |
+| ```BIOMETRICS_STAGE_VIDEO_CAMERA_MANUAL_MODE``` | The client reached manual capture camera for a video selfie. |
+| ```BIOMETRICS_STAGE_VIDEO_CHECK_QUALITY``` | The client has reached the video review screen after recording a video selfie. |
+| ```CAMERA_ACCESS_PERMISSION``` | The client has reached the permission request screen for camera permissions. |
+| ```COMPLETION_STAGE``` | The client has reached the Completion screen. |
+| ```CONSENT_STAGE``` | The client has reacher the consent stage screen. |
+| ```CONSENT_STAGE_WARNING``` | The client has attempted to exit without giving consent and receive a confirmation prompt. |
+| ```DOCUMENT_STAGE_TWO_SIDE_CHECK_QUALITY_BACK``` | The client reached quality preview screen for the back side of a two-sided ID document. |
+| ```DOCUMENT_STAGE_TWO_SIDE_CHECK_QUALITY_FRONT``` | The client reached quality preview screen for the front side of a two-sided ID document. |
+| ```DOCUMENT_STAGE_ONE_SIDE_CHECK_QUALITY``` | The client reached image quality preview screen for one-sided ID document. |
+| ```DOCUMENT_STAGE_TWO_SIDE_CAMERA_BACK``` | The client reached camera for the back side of a two-sided ID document. |
+| ```DOCUMENT_STAGE_TWO_SIDE_CAMERA_BACK_MANUAL_MODE``` | The client reached manual capture camera for the back side of two-sided ID document. |
+| ```DOCUMENT_STAGE_TWO_SIDE_CAMERA_FRONT``` | The client reached camera stage for the front side of two-sided ID document. |
+| ```DOCUMENT_STAGE_TWO_SIDE_CAMERA_FRONT_MANUAL_MODE``` | The client reached manual capture camera for the back side of two-sided ID document. |
+| ```DOCUMENT_STAGE_ONE_SIDE_CAMERA_MANUAL_MODE``` | The client reached manual capture camera of one-sided ID document. |
+| ```DOCUMENT_STAGE_ONE_SIDE_CAMERA``` | The client reached the capture camera stage for a one-sided ID document. |
+| ```DOCUMENT_STAGE_DOCUMENT_TYPE``` | The client has reached the document type selection screen for an ID Document capture stage. |
+| ```DOCUMENT_STAGE_SELECT_COUNTRY``` | The client reached country selection screen for ID document. |
+| ```DOCUMENT_STAGE_CAPTURE_GUIDANCE``` | The client reached capture guidance screen for ID document. |
+| ```INTRO``` | The client has reached the intro screen|
+| ```PROOF_OF_ADDRESS_STAGE_TWO_SIDE_CHECK_QUALITY_FRONT``` | The client reached quality preview screen for the front side of a two-sided proof of address document. |
+| ```PROOF_OF_ADDRESS_STAGE_CAPTURE_GUIDANCE``` | The client has reach capture guidance screen for proof of address document. |
+| ```PROOF_OF_ADDRESS_STAGE_TWO_SIDE_CHECK_QUALITY_BACK``` | The client reached quality preview screen for the back side of a two-sided proof of address document. |
+| ```PROOF_OF_ADDRESS_STAGE_ONE_SIDE_CHECK_QUALITY``` | The client reached quality preview screen for a one-sided proof of address document. |
+| ```PROOF_OF_ADDRESS_STAGE_DOCUMENT_TYPE``` | The client has reached the document type selection screen for a Proof Of Address capture stage. |
+| ```PROOF_OF_ADDRESS_STAGE_ONE_SIDE_CAMERA``` | The client reached capture camera stage for a one-sided proof of address. |
+| ```PROOF_OF_ADDRESS_STAGE_TWO_SIDE_CAMERA_FRONT_MANUAL_MODE``` | The client reached manual capture camera for the front side of a two-sided proof address document. |
+| ```PROOF_OF_ADDRESS_STAGE_TWO_SIDE_CAMERA_FRONT``` | The client reached capture camera for the front side of a two-sided proof address document. |
+| ```PROOF_OF_ADDRESS_STAGE_TWO_SIDE_CAMERA_BACK_MANUAL_MODE``` | The client reached manual capture camera for the back side of a two-sided proof address document. |
+| ```PROOF_OF_ADDRESS_STAGE_ONE_SIDE_CAMERA_MANUAL_MODE``` | The client reached manual capture camera for the front side of a one-sided proof address document. |
+| ```PROOF_OF_ADDRESS_STAGE_SELECT_COUNTRY``` | The client reached country selection screen for a proof of address document. |
+| ```PROOF_OF_ADDRESS_STAGE_TWO_SIDE_CAMERA_BACK``` | The client reached camera for the back side of a two-sided proof address document. |
+
+## Custom event handler
+
+If you want to implement your own user tracking, the SDK enables you to insert your custom tracking code for the [tracked events](#events-tracking).
+
+To incorporate your own tracking, define a function and apply it using `withEventHandler` when initializing the `Builder`:
+
+```swift
+let sdk = ComplyCubeMobileSDK.Builder()
+          .withEventHandler(handler: ComplyCubeCustomEventHandler)
+```
+
+## Token expiry Handler
+
+If you want to automatically manage token expiration, you can use a callback function to generate a new token and seamlessly continue the process with it.
+
+```kotlin
+let sdk = ComplyCubeMobileSDK.Builder()
+            .withTokenExpiryHandler({ () -> String in
+              // Insert custom token renewal code here
+            })
+```
+
+## NFC capture
+
+With the ComplyCube SDK, you can read NFC-enabled identity documents and confirm their authenticity and identity.
+
+To perform an NFC read, you'll first have to scan the document to obtain the necessary key for accessing the chip.
+
+> :information_source: Please get in touch with your **Account Manger** or **[support](https://support.complycube.com/hc/en-gb/requests/new)** to get access to our NFC Enabled Mobile SDK.
+
+The SDK supports the following features
+
+- Basic access control
+- Secure messaging
+- Passive Authentication
+- Active authentication
+- Chip authentication
+
+The **NFC stage** can only be initialized following a **Document stage**, otherwise you will encounter a `ComplyCubeErrorCode.DocumentMandatory` error.
+
+``` kotlin
+let nfcStage = NFCStage()
+```
 
 ## Going live
 
