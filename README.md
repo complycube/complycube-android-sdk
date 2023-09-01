@@ -91,30 +91,33 @@ artifactory_contextUrl= https://complycuberepo.jfrog.io/artifactory
 Then update your application `build.gradle` file with the ComplyCube SDK repository maven settings and SDK dependency:
 
 ```gradle
-plugins {
+buildscript {
     ...
-    id "com.jfrog.artifactory"
-}
-
-repositories {
-    mavenCentral()
-    google()
-    artifactory {
-        contextUrl = "${artifactory_contextUrl}"  
-        resolve {
-            repository {
-                repoKey = 'complycube-sdk-gradle-release-local'
-                username = "${artifactory_user}"
-                password = "${artifactory_password}"
-                maven = true
+    repositories {
+        ...
+        artifactory {
+            contextUrl = "${artifactory_contextUrl}"  
+            resolve {
+                repository {
+                    repoKey = 'complycube-sdk-gradle-release-local'
+                    username = "${artifactory_user}"
+                    password = "${artifactory_password}"
+                    maven = true
+                }
             }
         }
     }
+    dependencies {
+        ....
+        //Check for the latest version here: http://plugins.gradle.org/plugin/com.jfrog.artifactory
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
+        implementation "com.complycube:sdk:+"
+    }
 }
 
-dependencies {
-    implementation "com.complycube:sdk:+"
+plugins {
     ...
+    id "com.jfrog.artifactory"
 }
 ```
 
@@ -210,7 +213,7 @@ For example, use the properties:
 
 #### Example request
 
-```curl
+```bash
 curl -X POST https://api.complycube.com/v1/checks \
      -H ' Authorization: <YOUR_API_KEY>' \
      -H 'Content-Type: application/json' \
@@ -505,7 +508,7 @@ Below is the list of events being tracked by the SDK:
 | ```DOCUMENT_STAGE_DOCUMENT_TYPE``` | The client has reached the document type selection screen for an ID Document capture stage. |
 | ```DOCUMENT_STAGE_SELECT_COUNTRY``` | The client reached country selection screen for ID document. |
 | ```DOCUMENT_STAGE_CAPTURE_GUIDANCE``` | The client reached capture guidance screen for ID document. |
-| ```INTRO``` | The client has reached the intro screen|
+| ```INTRO``` | The client has reached the intro screen. |
 | ```PROOF_OF_ADDRESS_STAGE_TWO_SIDE_CHECK_QUALITY_FRONT``` | The client reached quality preview screen for the front side of a two-sided proof of address document. |
 | ```PROOF_OF_ADDRESS_STAGE_CAPTURE_GUIDANCE``` | The client has reach capture guidance screen for proof of address document. |
 | ```PROOF_OF_ADDRESS_STAGE_TWO_SIDE_CHECK_QUALITY_BACK``` | The client reached quality preview screen for the back side of a two-sided proof of address document. |
@@ -525,7 +528,7 @@ If you want to implement your own user tracking, the SDK enables you to insert y
 
 To incorporate your own tracking, define a function and apply it using `withEventHandler` when initializing the `Builder`:
 
-```kotlin
+```swift
 let sdk = ComplyCubeMobileSDK.Builder()
           .withEventHandler(handler: ComplyCubeCustomEventHandler)
 ```
