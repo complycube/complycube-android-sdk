@@ -525,7 +525,7 @@ If you want to implement your own user tracking, the SDK enables you to insert y
 
 To incorporate your own tracking, define a function and apply it using `withEventHandler` when initializing the `Builder`:
 
-```swift
+```kotlin
 let sdk = ComplyCubeMobileSDK.Builder()
           .withEventHandler(handler: ComplyCubeCustomEventHandler)
 ```
