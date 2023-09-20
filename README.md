@@ -99,7 +99,7 @@ buildscript {
             contextUrl = "${artifactory_contextUrl}"  
             resolve {
                 repository {
-                    repoKey = 'complycube-sdk-gradle-release-local'
+                    repoKey = 'cc-gradle-release-local'
                     username = "${artifactory_user}"
                     password = "${artifactory_password}"
                     maven = true
