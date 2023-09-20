@@ -2,7 +2,7 @@
 
 The ComplyCube Android SDK makes it quick and easy to build a frictionless customer onboarding and biometric re-authentication experience in your Android app. We provide powerful, smart, and customizable UI screens that can be used out-of-the-box to capture the data you need for identity verification.
 
-> :information_source: Please get in touch with your **Account Manger** or **[support](https://support.complycube.com/hc/en-gb/requests/new)** to get access to our Mobile SDK.
+> :information_source: Please get in touch with your **Account Manager** or **[support](https://support.complycube.com/hc/en-gb/requests/new)** to get access to our Mobile SDK.
 
 > :warning: If you were on our previous generation SDK (deprecated), please migrate to this one. Get in touch with support if you have any questions.
 
