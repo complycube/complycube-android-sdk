@@ -194,10 +194,37 @@ curl -X POST https://api.complycube.com/v1/tokens \
 Now you can initialize a flow with the default settings of a Document, Selfie and Proof of Address capture with assistance enabled.
 
 ```kotlin
-var complycubeFlow = ComplyCubeSdk.Builder(this, callback= ...)
-                        .withSDKToken("SDK_Token")
-                        .withClientId("CLIENT_ID")
-complycubeFlow.start()
+var clientAuth = ClientAuth("SDK_TOKEN", "CLIENT_ID")
+
+var complycubeFlow = ComplyCubeSdk.Builder(this,
+            callback = { result ->
+                when (result) {
+                    is Result.Success -> { /* Handle Success Result */ }
+                    is Result.Canceled -> { /* Handle Cancelled Result */ }
+                    is Result.Error -> { /* Handle Error Result */
+                        when (result.errorCode) {
+                            ComplyCubeErrorCode.UploadError -> { /* Handle Upload Error */ }
+                            ComplyCubeErrorCode.BiometricStageCount -> { /* Handle BiometricStageCount Error */ }
+                            ComplyCubeErrorCode.DocumentMandatory -> { /* Handle DocumentMandatory Error */ }
+                            ComplyCubeErrorCode.ExpiredToken -> { /* Handle ExpiredToken Error */ }
+                            ComplyCubeErrorCode.FlowError -> { /* Handle Flow Error */ }
+                            ComplyCubeErrorCode.InvalidCountryCode -> { /* Handle InvalidCountryCode Error */ }
+                            ComplyCubeErrorCode.JailBroken -> { /* Handle JailBroken Error */ }
+                            ComplyCubeErrorCode.NoDocumentTypes -> { /* Handle NoDocumentTypes Error */ }
+                            ComplyCubeErrorCode.NoResult -> { /* Handle NoResult Error */ }
+                            ComplyCubeErrorCode.NotAuthorized -> { /* Handle NotAuthorized Error */ }
+                            ComplyCubeErrorCode.Unknown -> { /* Handle Unknown Error */ }
+                            ComplyCubeErrorCode.UnsupportedCountryTypeCombination -> { /* Handle UnsupportedCountryTypeCombination Error */ }
+                            ComplyCubeErrorCode.Connectivity -> { /* Handle Connectivity Error */ }
+                            ComplyCubeErrorCode.NoDiskAccess -> { /* Handle NoDiskAccess Error */ }
+                            ComplyCubeErrorCode.NoUserConsent -> { /* Handle NoUserConsent Error */ }
+                            ComplyCubeErrorCode.UnsupportedDocumentType -> { /* Handle UnsupportedDocumentType Error */ }
+                        }
+                    }
+                    else -> { }
+                }
+            })
+complycubeFlow.start(clientAuth)
 ```
 
 ### 5. Perform checks
@@ -371,7 +398,7 @@ var completionStage = Complete(
 The SDK allows you to set colors to match your existing application or brand. You can customize the colors by setting the relevant values when building your flow.
 
 ```kotlin
-complycubeFlow.withLookAndFeel(lookAndFeel = LookAndFeel { primaryButtonColor = Color.RED })
+complycubeFlow.withLookAndFeel(lookAndFeel = LookAndFeel (primaryButtonColor = Color.RED))
 ```
 
 | Appearance property | Description |
@@ -463,8 +490,13 @@ If the SDK experiences any issues, the error callback will contain one of the fo
 | ```ComplyCubeErrorCode.UploadError``` | An error occurred during the upload document or selfie upload process. |
 | ```ComplyCubeErrorCode.InvalidCountryCode``` | An invalid country code is provided. |
 | ```ComplyCubeErrorCode.UnsupportedCountryTypeCombination``` | An unsupported country code is provided for a specific document type. |
+| ```ComplyCubeErrorCode.NoUserConsent``` | The user has not given consent to using the SDK. |
+| ```ComplyCubeErrorCode.NoResult``` | No Result is given to the callback when returning back to your up. If this keeps occuring, let us know about it. |
 | ```ComplyCubeErrorCode.Unknown``` | An unexpected error has occurred. If this keeps occurring, let us know about it. |
 | ```ComplyCubeErrorCode.FlowError``` | An unrecoverable error occurred during the flow.|
+| ```ComplyCubeErrorCode.Connectivity``` | A Network error has occured. |
+| ```ComplyCubeErrorCode.NoDiskAccess``` | The user has declined disk access permission. |
+| ```ComplyCubeErrorCode.UnsupportedDocumentType``` | An unsupported document is provided. |
 
 ##### Invalid configuration exceptions
 
