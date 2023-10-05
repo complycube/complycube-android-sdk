@@ -88,37 +88,47 @@ artifactory_password= "ENCRYPTED PASS"
 artifactory_contextUrl= https://complycuberepo.jfrog.io/artifactory
 ```
 
-Then update your application `build.gradle` file with the ComplyCube SDK repository maven settings and SDK dependency:
+Then update your project level `build.gradle` file with the ComplyCube SDK repository maven settings:
 
 ```gradle
 buildscript {
     ...
     repositories {
         ...
-        artifactory {
-            contextUrl = "${artifactory_contextUrl}"  
-            resolve {
-                repository {
-                    repoKey = 'cc-gradle-release-local'
-                    username = "${artifactory_user}"
-                    password = "${artifactory_password}"
-                    maven = true
-                }
-            }
-        }
+      
     }
     dependencies {
         ....
         //Check for the latest version here: http://plugins.gradle.org/plugin/com.jfrog.artifactory
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
-        implementation "com.complycube:sdk:+"
     }
 }
 
-plugins {
+allprojects {
+    apply plugin: "com.jfrog.artifactory"
     ...
-    id "com.jfrog.artifactory"
 }
+
+artifactory {
+  contextUrl = "${artifactory_contextUrl}"  
+  resolve {
+    repository {
+      repoKey = 'cc-gradle-release-local'
+      username = "${artifactory_user}"
+      password = "${artifactory_password}"
+      maven = true
+    }
+  }
+}
+```
+
+Then update your module level `build.gradle` file with the SDK dependency:
+
+```gradle
+dependencies {
+    implementation "com.complycube:sdk:+"
+}
+
 ```
 
 ### 2. Creating a client
