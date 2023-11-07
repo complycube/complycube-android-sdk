@@ -592,7 +592,7 @@ With the ComplyCube SDK, you can read NFC-enabled identity documents and confirm
 
 To perform an NFC read, you'll first have to scan the document to obtain the necessary key for accessing the chip.
 
-> :information_source: Please get in touch with your **Account Manager** or **[support](https://support.complycube.com/hc/en-gb/requests/new)** to get access to our NFC Enabled Mobile SDK.
+> :information_source: Please get in touch with your **Account Manager** or **[support](https://support.complycube.com/hc/en-gb/requests/new)** to get access to our NFC enabled Mobile SDK.
 
 The SDK supports the following features
 
@@ -604,17 +604,15 @@ The SDK supports the following features
 
 The **NFC stage** can only be initialized following a **Document stage**, otherwise you will encounter a `ComplyCubeErrorCode.DocumentMandatory` error.
 
-To use NFC once you have access to our NFC Enabled Mobile SDK. Simply add the stage to your list of stages
-
 ``` kotlin
 var complycubeFlow = ComplyCubeSdk.Builder(this, callback = ...)
                         .withStages(
                             Welcome(...),
                             Consent(...),
                             Document(...),
-		                    NFC(...),
+ 			    NFC(...),
                             SelfiePhoto(...),
-                            ProofOfAddress(...)
+                            ProofOfAddress(...),
                             Complete(...)
                         )
                         .withLookAndFeel(...)
