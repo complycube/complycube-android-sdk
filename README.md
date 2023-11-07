@@ -604,8 +604,22 @@ The SDK supports the following features
 
 The **NFC stage** can only be initialized following a **Document stage**, otherwise you will encounter a `ComplyCubeErrorCode.DocumentMandatory` error.
 
+To use NFC once you have access to our NFC Enabled Mobile SDK. Simply add the stage to your list of stages
+
 ``` kotlin
-let nfcStage = NFCStage()
+var complycubeFlow = ComplyCubeSdk.Builder(this, callback = ...)
+                        .withStages(
+                            Welcome(...),
+                            Consent(...),
+                            Document(...),
+		                    NFC(...),
+                            SelfiePhoto(...),
+                            ProofOfAddress(...)
+                            Complete(...)
+                        )
+                        .withLookAndFeel(...)
+                        .withCustomLanguage(...)
+ 
 ```
 
 ## Going live
