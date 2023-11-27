@@ -602,7 +602,25 @@ The SDK supports the following features
 - Active authentication
 - Chip authentication
 
-The **NFC stage** can only be initialized following a **Document stage**, otherwise you will encounter a `ComplyCubeErrorCode.DocumentMandatory` error.
+Once you have got access to our NFC capture from via your **Account Manager** or support then please add the following to your project level `build.gradle`
+
+``` gradle
+allprojects {
+  repositories {
+    maven {
+      url "https://maven.regulaforensics.com/RegulaDocumentReader"
+    }
+  }
+}
+```
+
+And then in your app level `build.gradle` add the dependency:
+
+```gradle
+   implementation("com.complycube:nfc-plugin:+")
+```
+
+The **NFC stage** can only be initialized following a **Document stage**.
 
 ``` kotlin
 var complycubeFlow = ComplyCubeSdk.Builder(this, callback = ...)
@@ -610,7 +628,7 @@ var complycubeFlow = ComplyCubeSdk.Builder(this, callback = ...)
                             Welcome(...),
                             Consent(...),
                             Document(...),
- 			    NFC(...),
+ 			                NFC(retryAttempts = ...),
                             SelfiePhoto(...),
                             ProofOfAddress(...),
                             Complete(...)
