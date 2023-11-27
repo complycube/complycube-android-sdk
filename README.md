@@ -628,7 +628,7 @@ var complycubeFlow = ComplyCubeSdk.Builder(this, callback = ...)
                             Welcome(...),
                             Consent(...),
                             Document(...),
- 			                NFC(retryAttempts = ...),
+ 			    NFC(...),
                             SelfiePhoto(...),
                             ProofOfAddress(...),
                             Complete(...)
