@@ -570,7 +570,7 @@ If you want to implement your own user tracking, the SDK enables you to insert y
 
 To incorporate your own tracking, define a function and apply it using `withEventHandler` when initializing the `Builder`:
 
-```swift
+```kotlin
 let sdk = ComplyCubeMobileSDK.Builder()
           .withEventHandler(handler: ComplyCubeCustomEventHandler)
 ```
@@ -594,15 +594,15 @@ To perform an NFC read, you'll first have to scan the document to obtain the nec
 
 > :information_source: Please get in touch with your **Account Manager** or **[support](https://support.complycube.com/hc/en-gb/requests/new)** to get access to our NFC enabled Mobile SDK.
 
-The SDK supports the following features
+The SDK supports the following features:
 
 - Basic access control
 - Secure messaging
-- Passive Authentication
+- Passive authentication
 - Active authentication
 - Chip authentication
 
-Once you have got access to our NFC capture from via your **Account Manager** or support then please add the following to your project level `build.gradle`
+Once you've gained access to our NFC capture feature, start by inserting the following into your project-level `build.gradle`:
 
 ``` gradle
 allprojects {
@@ -614,7 +614,7 @@ allprojects {
 }
 ```
 
-And then in your app level `build.gradle` add the dependency:
+Next, you need to include the specific NFC capture dependency in your app-level `build.gradle`. Add the following line under dependencies:
 
 ```gradle
    implementation("com.complycube:nfc-plugin:+")
@@ -628,7 +628,7 @@ var complycubeFlow = ComplyCubeSdk.Builder(this, callback = ...)
                             Welcome(...),
                             Consent(...),
                             Document(...),
- 			    NFC(...),
+ 			                      NFC(...),
                             SelfiePhoto(...),
                             ProofOfAddress(...),
                             Complete(...)
