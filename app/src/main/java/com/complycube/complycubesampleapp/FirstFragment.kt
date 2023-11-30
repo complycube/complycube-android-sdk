@@ -3,16 +3,14 @@ package com.complycube.complycubesampleapp
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.complycube.complycubesampleapp.databinding.FragmentFirstBinding
 import com.complycube.sdk.ComplyCubeSdk
-import com.complycube.sdk.common.data.IdentityDocumentType
-import com.complycube.sdk.common.data.ComplyCubeResult
-import com.complycube.sdk.common.data.Stage.CustomStage.*
-import com.complycube.sdk.common.data.Stage.DefaultStage.*
+import com.complycube.sdk.common.data.ClientAuth
+import com.complycube.sdk.common.data.Result
 import com.complycube.sdk.presentation.theme.SdkColors
 
 /**
@@ -32,8 +30,9 @@ class FirstFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         //Initialize flow
-        var a = ComplyCubeSdk.Builder(this,::flowResultHandler)
-            .withCustomColors(customColors = SdkColors( primaryButtonColor = Color.RED)))
+        complycubeFlow = ComplyCubeSdk.Builder(this,::flowResultHandler).apply {
+            withCustomColors(customColors = SdkColors( primaryButtonColor = Color.RED.toLong()))
+        }
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -41,7 +40,12 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.buttonFirst.setOnClickListener {
-            complycubeFlow?.start()
+            complycubeFlow?.start(
+                ClientAuth(
+                    token = "Enter JWT Token here",
+                    clientId = "Enter ClientID here"
+                )
+            )
         }
     }
 
@@ -50,15 +54,15 @@ class FirstFragment : Fragment() {
         _binding = null
     }
 
-    private fun flowResultHandler(flowResult: ComplyCubeFlowResult?) {
+    private fun flowResultHandler(flowResult: Result?) {
         when(flowResult){
-            is ComplyCubeFlowResult.Error -> {
+            is Result.Error -> {
                 Log.i("CC-RESULT-ERROR", flowResult.toString())
             }
-            is ComplyCubeFlowResult.Success -> {
+            is Result.Success -> {
                 Log.i("CC-RESULT-SUCCESS", flowResult.toString())
             }
-            is ComplyCubeFlowResult.Canceled -> {
+            is Result.Canceled -> {
                 Log.i("CC-RESULT-CANCELLED", flowResult.toString())
             }
             else -> {
