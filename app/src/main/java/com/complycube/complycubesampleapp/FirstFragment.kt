@@ -42,8 +42,8 @@ class FirstFragment : Fragment() {
         binding.buttonFirst.setOnClickListener {
             complycubeFlow?.start(
                 ClientAuth(
-                    token = "Enter JWT Token here",
-                    clientId = "Enter ClientID here"
+                    token = "SDK TOKEN",
+                    clientId = "CLIENT ID"
                 )
             )
         }
