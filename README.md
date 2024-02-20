@@ -20,6 +20,8 @@ This repository provides a pre-built UI that uses the ComplyCube SDK. It guides 
 5. In the `FirstFragment.kt` file, replace `CLIENT_ID` and `SDK_TOKEN` with the generated values from the previous steps.
 6. Run the app.
 
+> :information_source: If you're using an updated SDK version and run into any issues, please clear your `%USERPROFILE%\.gradle\caches` or `~/.gradle/caches` folder
+
 ## Integrating our SDK
 
 For detailed instructions on integrating our SDK, please refer to our [integration guide](https://docs.complycube.com/documentation/guides/mobile-sdk-guide/mobile-sdk-integration-guide).
