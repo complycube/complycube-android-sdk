@@ -2,23 +2,15 @@
 
 This repository provides a pre-built UI that uses the ComplyCube SDK. It guides you through the ComplyCube identity verification process, which includes collecting client ID documents, proof of address documents, and biometric selfies.
 
-> :information_source: Please get in touch with your **Account Manager** or **[support](https://support.complycube.com/hc/en-gb/requests/new)** to get access to our Mobile SDK.
+> :information_source: Please get in touch with your **Account Manager** or **[support](https://support.complycube.com/hc/en-gb/requests/new)** to get access to our NFC-enabled Mobile SDK.
 
 ## To run the app
 
-1. Open the `gradle.properties` file and add your access credentials:
-
-   ```gradle
-   artifactory_user= "USERNAME"
-   artifactory_password= "ENCRYPTED PASS"
-   artifactory_contextUrl= https://complycuberepo.jfrog.io/artifactory
-   ```
-
-2. Synchronize your Gradle project to install the required dependencies.
-3. [Create a Client ID](https://docs.complycube.com/documentation/guides/mobile-sdk-guide/mobile-sdk-integration-guide#id-2.-create-a-client).
-4. [Generate an SDK token](https://docs.complycube.com/documentation/guides/mobile-sdk-guide/mobile-sdk-integration-guide#id-3.-generate-an-sdk-token).
-5. In the `FirstFragment.kt` file, replace `CLIENT_ID` and `SDK_TOKEN` with the generated values from the previous steps.
-6. Run the app.
+1. Synchronize your Gradle project to install the required dependencies.
+2. [Create a Client ID](https://docs.complycube.com/documentation/guides/mobile-sdk-guide/mobile-sdk-integration-guide#id-2.-create-a-client).
+3. [Generate an SDK token](https://docs.complycube.com/documentation/guides/mobile-sdk-guide/mobile-sdk-integration-guide#id-3.-generate-an-sdk-token).
+4. In the `FirstFragment.kt` file, replace `CLIENT_ID` and `SDK_TOKEN` with the generated values from the previous steps.
+5. Run the app.
 
 > :information_source: If you're using an updated SDK version and run into any issues, please clear your `%USERPROFILE%\.gradle\caches` or `~/.gradle/caches` folder
 
