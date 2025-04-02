@@ -7,27 +7,30 @@ plugins {
 repositories {
     mavenCentral()
     google()
-    artifactory {
-        contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
-        resolve {
-            repository {
-                repoKey = 'cc-gradle-release'
-                username = "${artifactory_user}"
-                password = "${artifactory_password}"
-                maven = true
-            }
-        }
-    }
+//    maven { url 'https://maven.fpregistry.io/releases' }
+//    maven { url "https://jitpack.io" }
+
+//    artifactory {
+//        contextUrl = "${artifactory_contextUrl}"   //The base Artifactory URL if not overridden by the publisher/resolver
+//        resolve {
+//            repository {
+//                repoKey = 'cc-gradle-release'
+//                username = "${artifactory_user}"
+//                password = "${artifactory_password}"
+//                maven = true
+//            }
+//        }
+//    }
 }
 
 android {
     namespace 'com.complycube.complycubesampleapp'
-    compileSdk 33 // Upgrade it to 33 for the aar metadata check
+    compileSdk 34 // Upgrade it to 33 for the aar metadata check
 
     defaultConfig {
         applicationId "com.complycube.complycubesampleapp"
-        minSdk 21
-        targetSdk 32
+        minSdk 24
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
 
@@ -53,7 +56,14 @@ android {
 }
 
 dependencies {
-    implementation "com.complycube:sdk:+"
+//    implementation "com.complycube:sdk:1.3.0"
+//    implementation "com.complycube:complycube-sdk:1.4.5"
+
+    implementation('com.complycube:complycube-sdk:1.4.5') {
+        exclude group: 'com.google.errorprone', module: 'error_prone_annotations'
+    }
+
+
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
