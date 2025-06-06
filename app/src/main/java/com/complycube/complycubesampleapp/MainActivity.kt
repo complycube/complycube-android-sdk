@@ -1,22 +1,14 @@
 package com.complycube.complycubesampleapp
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
 import com.complycube.complycubesampleapp.databinding.ActivityMainBinding
-import com.complycube.sdk.ComplyCubeSdk
-import com.complycube.sdk.common.data.Stage.CustomStage.*
-import com.complycube.sdk.common.data.Stage.DefaultStage.*
-import com.complycube.sdk.common.data.ClientAuth
-import com.complycube.sdk.common.data.Country.*
-import com.complycube.sdk.common.data.IdentityDocumentType.*
-import com.complycube.sdk.common.data.Result
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,11 +24,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
