@@ -53,46 +53,47 @@ class FirstFragment : Fragment() {
             SelfiePhoto(),
             AddressCapture(useAutoComplete = true),
             ProofOfAddress(),
-            CustomerInfo(
-                title = "CustomerInfo",
-                customerInfoFields = listOf(
-                        CustomerInfoField.Email,
-                        CustomerInfoField.Mobile,
-                        CustomerInfoField.JoinedDate,
-                        CustomerInfoField.Telephone,
-                        CustomerInfoField.ExternalId,
-                    CustomerInfoField.Details(
-//                            CustomerInfoDetail.Company(
-//                                listOf(
-//                                    CustomerInfoCompanyField.NAME,
-//                                    CustomerInfoCompanyField.WEBSITE,
-//                                    CustomerInfoCompanyField.REGISTRATION_NUMBER,
-//                                    CustomerInfoCompanyField.INCORPORATION_TYPE,
-//                                    CustomerInfoCompanyField.INCORPORATION_COUNTRY,
-//
-//                                )
-//                            ),
-//
-                        CustomerInfoDetail.Person(
-                            listOf(
-                                    CustomerInfoPersonField.FIRST_NAME,
-                                    CustomerInfoPersonField.MIDDLE_NAME,
-                                    CustomerInfoPersonField.LAST_NAME,
-                                    CustomerInfoPersonField.GENDER,
-                                    CustomerInfoPersonField.DATE_OF_BIRTH,
-                                    CustomerInfoPersonField.BIRTH_COUNTRY,
-                                    CustomerInfoPersonField.NATIONALITY,
-                                    CustomerInfoPersonField.NATIONAL_IDENTITY_NUMBER,
-                                    CustomerInfoPersonField.SOCIAL_INSURANCE_NUMBER.copy(constraint = Constraint("metadata.jurisdiction contains US")),
-                                    CustomerInfoPersonField.SSN.copy(constraint = Constraint("metadata.has_ssn contains yes")),
-                                    CustomerInfoPersonField.TAX_IDENTIFICATION_NUMBER,
-                            )
-                        )
-                    ),
-                ),
-            ),
+//            CustomerInfo(
+//                title = "CustomerInfo",
+//                customerInfoFields = listOf(
+//                        CustomerInfoField.Email,
+//                        CustomerInfoField.Mobile,
+//                        CustomerInfoField.JoinedDate,
+//                        CustomerInfoField.Telephone,
+//                        CustomerInfoField.ExternalId,
+//                    CustomerInfoField.Details(
+////                            CustomerInfoDetail.Company(
+////                                listOf(
+////                                    CustomerInfoCompanyField.NAME,
+////                                    CustomerInfoCompanyField.WEBSITE,
+////                                    CustomerInfoCompanyField.REGISTRATION_NUMBER,
+////                                    CustomerInfoCompanyField.INCORPORATION_TYPE,
+////                                    CustomerInfoCompanyField.INCORPORATION_COUNTRY,
+////
+////                                )
+////                            ),
+////
+//                        CustomerInfoDetail.Person(
+//                            listOf(
+//                                    CustomerInfoPersonField.FIRST_NAME,
+//                                    CustomerInfoPersonField.MIDDLE_NAME,
+//                                    CustomerInfoPersonField.LAST_NAME,
+//                                    CustomerInfoPersonField.GENDER,
+//                                    CustomerInfoPersonField.DATE_OF_BIRTH,
+//                                    CustomerInfoPersonField.BIRTH_COUNTRY,
+//                                    CustomerInfoPersonField.NATIONALITY,
+//                                    CustomerInfoPersonField.NATIONAL_IDENTITY_NUMBER,
+//                                    CustomerInfoPersonField.SOCIAL_INSURANCE_NUMBER.copy(constraint = Constraint("metadata.jurisdiction contains US")),
+//                                    CustomerInfoPersonField.SSN.copy(constraint = Constraint("metadata.has_ssn contains yes")),
+//                                    CustomerInfoPersonField.TAX_IDENTIFICATION_NUMBER,
+//                            )
+//                        )
+//                    ),
+//                ),
+//            ),
             Complete()
         )
+//        complycubeFlow?.withWorkflowId("6762ec40bbbd950008d39e47")
         complycubeFlow?.withLookAndFeel(LookAndFeel(enableAnimations = true))
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
@@ -103,8 +104,8 @@ class FirstFragment : Fragment() {
         binding.buttonFirst.setOnClickListener {
             complycubeFlow?.start(
                 ClientAuth(
-                    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiTTJGa056VTNZamMzWTJKa1lqVTBZelUzTVRFd1pEZzVOV1UxTkdNNE0yWXlaVEZsWXpVMk1XWXhNalkwWWpFek1tTmlOalU0TlRnMU5HRXhOVGs0WWpGak9XTm1PR05rTlRWak9XUTBPVEEyWldNeU9UWTRPV1kzTURZelpEWXpZemRqT0RCbE56azFOVFUwWVRoak1Ea3pNMlV5WTJWaFkyUTVNVEUxTldFek1USTRNV1V3WVRFNU9EY3pPREk1TXpkaU4yVmhZemRqWW1Jd05UZGtZalJrTWpkaU5UVmpaRGczWkdZMVlUVmxOV1E0TnpBMFpUQTFaakZtTWprek1tUXpaR0UxWldZek1EUTNOR1psWkRKak1qUXhNR1JpTXprMFpEUTBPR0ZqWkRZME16Sm1OemhrT0RFM1pETTRZbVF3TW1SaFpqWTFNVFZqT1RNeVpBPT0iLCJ1cmxzIjp7ImFwaSI6Imh0dHBzOi8vYXBpLmNvbXBseWN1YmUuY29tIiwic3luYyI6IndzczovL3hkcy5jb21wbHljdWJlLmNvbSIsImNyb3NzRGV2aWNlIjoiaHR0cHM6Ly94ZC5jb21wbHljdWJlLmNvbSJ9LCJvcHRpb25zIjp7ImhpZGVDb21wbHlDdWJlTG9nbyI6ZmFsc2UsImVuYWJsZUN1c3RvbUxvZ28iOnRydWUsImVuYWJsZVRleHRCcmFuZCI6dHJ1ZSwiZW5hYmxlQ3VzdG9tQ2FsbGJhY2tzIjp0cnVlLCJlbmFibGVOZmMiOmZhbHNlLCJpZGVudGl0eUNoZWNrTGl2ZW5lc3NBdHRlbXB0cyI6NSwiZG9jdW1lbnRJbmZsaWdodFRlc3RBdHRlbXB0cyI6MiwibmZjUmVhZEF0dGVtcHRzIjo1LCJlbmFibGVBZGRyZXNzQXV0b2NvbXBsZXRlIjp0cnVlLCJlbmFibGVXaGl0ZUxhYmVsaW5nIjp0cnVlfSwiaWF0IjoxNzI3MTc0NjU3LCJleHAiOjE3MjcxNzgyNTd9.nNVmg4HL4v6hAoa1GDvOe0Exdaa1dZykqfa63olzi9E",
-                    clientId = "66f27dd9f63537000824e92c"
+                    token = "..YOUR_TOKEN",
+                    clientId = "YOUR_CLIENT_ID"
                 )
             )
         }
