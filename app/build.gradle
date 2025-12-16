@@ -12,15 +12,19 @@ repositories {
 
 android {
     namespace 'com.complycube.complycubesampleapp'
-    compileSdk 34 // Upgrade it to 33 for the aar metadata check
+    def compileSdkVer = (System.getenv("COMPILE_SDK") ?: (project.findProperty("COMPLYCUBE_COMPILE_SDK") ?: "34")).toString().toInteger()
+    def targetSdkVer  = (System.getenv("TARGET_SDK")  ?: (project.findProperty("COMPLYCUBE_TARGET_SDK")  ?: "34")).toString().toInteger()
+    def minSdkVer     = (System.getenv("MIN_SDK")     ?: (project.findProperty("COMPLYCUBE_MIN_SDK")     ?: "24")).toString().toInteger()
+
+    compileSdk compileSdkVer
 
     defaultConfig {
         applicationId "com.complycube.complycubesampleapp"
-        minSdk 24
-        targetSdkVersion 34
+        minSdk minSdkVer
+        targetSdk targetSdkVer
+
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -31,11 +35,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "11"
     }
     buildFeatures {
         viewBinding true
@@ -47,7 +51,7 @@ android {
 
 dependencies {
 
-    implementation('com.complycube:complycube-sdk:+') {
+    implementation('com.complycube:complycube-sdk:1.4.16') {
         exclude group: 'com.google.errorprone', module: 'error_prone_annotations'
     }
 
