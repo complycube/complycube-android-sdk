@@ -43,18 +43,6 @@ jobs:
             compileSdk: 35
             targetSdk: 35
 
-        exclude:
-          # API 35 needs AGP >= 8.6.0
-          - compileSdk: 35
-            agp: "8.4.2"
-          - compileSdk: 35
-            agp: "8.5.2"
-
-          - targetSdk: 35
-            agp: "8.4.2"
-          - targetSdk: 35
-            agp: "8.5.2"
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -63,7 +51,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: ${{ matrix.jdk }}
+          java-version: 17
 
       - name: Pin Gradle wrapper distribution
         shell: bash
