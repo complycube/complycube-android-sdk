@@ -2,122 +2,120 @@ name: Compatibility Matrix Build
 
 on:
   push:
-    branches: [ "**" ]
-#    branches: [ "main" ]
+    branches: ["**"]
   workflow_dispatch:
 
 jobs:
   build-matrix:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - jdk: "17"
+            gradle: "8.9"
+            agp: "8.7.2"
+            kotlin: "1.9.25"
+            compileSdk: 34
+            targetSdk: 34
 
-  strategy:
-    fail-fast: false
-    matrix:
-      include:
-        - jdk: "17"
-          gradle: "8.9"
-          agp: "8.7.2"
-          kotlin: "1.9.25"
-          compileSdk: 34
-          targetSdk: 34
+          - jdk: "17"
+            gradle: "8.9"
+            agp: "8.6.1"
+            kotlin: "1.9.25"
+            compileSdk: 34
+            targetSdk: 34
 
-        - jdk: "17"
-          gradle: "8.9"
-          agp: "8.6.1"
-          kotlin: "1.9.25"
-          compileSdk: 34
-          targetSdk: 34
+          - jdk: "17"
+            gradle: "8.9"
+            agp: "8.8.0"
+            kotlin: "1.9.25"
+            compileSdk: 34
+            targetSdk: 34
 
-        - jdk: "17"
-          gradle: "8.9"
-          agp: "8.8.0"
-          kotlin: "1.9.25"
-          compileSdk: 34
-          targetSdk: 34
+          - jdk: "17"
+            gradle: "8.9"
+            agp: "8.7.2"
+            kotlin: "1.9.24"
+            compileSdk: 34
+            targetSdk: 34
 
-        - jdk: "17"
-          gradle: "8.9"
-          agp: "8.7.2"
-          kotlin: "1.9.24"
-          compileSdk: 34
-          targetSdk: 34
+          - jdk: "17"
+            gradle: "8.9"
+            agp: "8.7.2"
+            kotlin: "2.0.0"
+            compileSdk: 34
+            targetSdk: 34
 
-        - jdk: "17"
-          gradle: "8.9"
-          agp: "8.7.2"
-          kotlin: "2.0.0"
-          compileSdk: 34
-          targetSdk: 34
+          - jdk: "17"
+            gradle: "8.9"
+            agp: "8.7.2"
+            kotlin: "1.9.25"
+            compileSdk: 33
+            targetSdk: 33
 
-        - jdk: "17"
-          gradle: "8.9"
-          agp: "8.7.2"
-          kotlin: "1.9.25"
-          compileSdk: 33
-          targetSdk: 33
+          - jdk: "17"
+            gradle: "8.9"
+            agp: "8.7.2"
+            kotlin: "1.9.25"
+            compileSdk: 35
+            targetSdk: 35
 
-        - jdk: "17"
-          gradle: "8.9"
-          agp: "8.7.2"
-          kotlin: "1.9.25"
-          compileSdk: 35
-          targetSdk: 35
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.jdk }}
 
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v4
+      - name: Pin Gradle wrapper distribution
+        shell: bash
+        run: |
+          set -e
+          FILE="gradle/wrapper/gradle-wrapper.properties"
+          if [ ! -f "$FILE" ]; then
+            echo "Missing $FILE"
+            exit 1
+          fi
+          sed -i "s|distributionUrl=.*|distributionUrl=https\\://services.gradle.org/distributions/gradle-${{ matrix.gradle }}-bin.zip|g" "$FILE"
+          cat "$FILE"
 
-        - name: Setup JDK
-          uses: actions/setup-java@v4
-          with:
-            distribution: temurin
-            java-version: ${{ matrix.jdk }}
+      - name: Assemble Debug
+        id: assemble
+        shell: bash
+        run: |
+          ./gradlew --version
+          ./gradlew :app:assembleDebug \
+            -PAGP_VERSION=${{ matrix.agp }} \
+            -PKOTLIN_VERSION=${{ matrix.kotlin }} \
+            -PCOMPILE_SDK=${{ matrix.compileSdk }} \
+            -PTARGET_SDK=${{ matrix.targetSdk }} \
+            --no-daemon
 
-        - name: Pin Gradle wrapper distribution
-          shell: bash
-          run: |
-            set -e
-            FILE="gradle/wrapper/gradle-wrapper.properties"
-            if [ ! -f "$FILE" ]; then
-              echo "Missing $FILE"
-              exit 1
-            fi
-            sed -i "s|distributionUrl=.*|distributionUrl=https\\://services.gradle.org/distributions/gradle-${{ matrix.gradle }}-bin.zip|g" "$FILE"
-            cat "$FILE"
+      - name: Write build result JSON
+        if: always()
+        shell: bash
+        run: |
+          python3 scripts/compat/write_result.py \
+            --out "compat-results/result.json" \
+            --jdk "${{ matrix.jdk }}" \
+            --gradle "${{ matrix.gradle }}" \
+            --agp "${{ matrix.agp }}" \
+            --kotlin "${{ matrix.kotlin }}" \
+            --compileSdk "${{ matrix.compileSdk }}" \
+            --targetSdk "${{ matrix.targetSdk }}" \
+            --status "${{ steps.assemble.outcome }}"
 
-        - name: Assemble Debug
-          id: assemble
-          shell: bash
-          run: |
-            ./gradlew --version
-            ./gradlew :app:assembleDebug \
-              -PAGP_VERSION=${{ matrix.agp }} \
-              -PKOTLIN_VERSION=${{ matrix.kotlin }} \
-              -PCOMPILE_SDK=${{ matrix.compileSdk }} \
-              -PTARGET_SDK=${{ matrix.targetSdk }} \
-              --no-daemon
-
-        - name: Write build result JSON
-          if: always()
-          shell: bash
-          run: |
-            python3 scripts/compat/write_result.py \
-              --out "compat-results/result.json" \
-              --jdk "${{ matrix.jdk }}" \
-              --gradle "${{ matrix.gradle }}" \
-              --agp "${{ matrix.agp }}" \
-              --kotlin "${{ matrix.kotlin }}" \
-              --compileSdk "${{ matrix.compileSdk }}" \
-              --targetSdk "${{ matrix.targetSdk }}" \
-              --status "${{ steps.assemble.outcome }}"
-
-        - name: Upload result artifact
-          if: always()
-          uses: actions/upload-artifact@v4
-          with:
-            name: compat-result-${{ matrix.jdk }}-${{ matrix.gradle }}-${{ matrix.agp }}-${{ matrix.kotlin }}-${{ matrix.compileSdk }}-${{ matrix.targetSdk }}
-            path: compat-results/result.json
+      - name: Upload result artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compat-result-${{ matrix.jdk }}-${{ matrix.gradle }}-${{ matrix.agp }}-${{ matrix.kotlin }}-${{ matrix.compileSdk }}-${{ matrix.targetSdk }}
+          path: compat-results/result.json
 
   aggregate:
     needs: build-matrix
