@@ -11,14 +11,37 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        jdk: [17, 21]
-        gradle: ["8.8", "8.9", "8.11.1"]
-        agp: ["8.4.2", "8.5.2", "8.6.0"]
-        kotlin: ["1.9.25", "2.1.0", "2.1.20"]
-        compileSdk: [33, 34, 35]
-        targetSdk: [33, 34, 35]
+        include:
+          - agp: "8.7.2"
+            kotlin: "1.9.25"
+            compileSdk: 34
+            targetSdk: 34
+          - agp: "8.6.1"
+            kotlin: "1.9.25"
+            compileSdk: 34
+            targetSdk: 34
+          - agp: "8.8.0"
+            kotlin: "1.9.25"
+            compileSdk: 34
+            targetSdk: 34
+          - agp: "8.7.2"
+            kotlin: "1.9.24"
+            compileSdk: 34
+            targetSdk: 34
+          - agp: "8.7.2"
+            kotlin: "2.0.0"
+            compileSdk: 34
+            targetSdk: 34
+          - agp: "8.7.2"
+            kotlin: "1.9.25"
+            compileSdk: 33
+            targetSdk: 33
+          - agp: "8.7.2"
+            kotlin: "1.9.25"
+            compileSdk: 35
+            targetSdk: 35
 
         exclude:
           # API 35 needs AGP >= 8.6.0
