@@ -28,7 +28,7 @@ jobs:
             targetSdk: 34
 
           - jdk: "17"
-            gradle: "8.9"
+            gradle: "8.10.2"
             agp: "8.8.0"
             kotlin: "1.9.25"
             compileSdk: 34
