@@ -1,8 +1,18 @@
 pluginManagement {
+
+    def agpVersion = System.getenv("AGP_VERSION") ?: (providers.gradleProperty("AGP_VERSION").orNull ?: "8.5.2")
+    def kotlinVersion = System.getenv("KOTLIN_VERSION") ?: (providers.gradleProperty("KOTLIN_VERSION").orNull ?: "2.1.0")
+
     repositories {
         gradlePluginPortal()
         google()
         mavenCentral()
+    }
+
+    plugins {
+        id "com.android.application" version agpVersion
+        id "com.android.library" version agpVersion
+        id "org.jetbrains.kotlin.android" version kotlinVersion
     }
 }
 dependencyResolutionManagement {

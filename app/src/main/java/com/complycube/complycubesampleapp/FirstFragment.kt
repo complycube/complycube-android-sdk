@@ -104,8 +104,8 @@ class FirstFragment : Fragment() {
         binding.buttonFirst.setOnClickListener {
             complycubeFlow?.start(
                 ClientAuth(
-                    token = "..YOUR_TOKEN",
-                    clientId = "YOUR_CLIENT_ID"
+                    token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjoiTTJGa056VTNZamMzWTJKa1lqVTBZelUzTVRFd1pEZzVOV1UxTkdNNE0yWXlaVEZsWXpVMk1XWXhNalkwWWpFek1tTmlOalU0TlRnMU5HRXhOVGs0WWprMlpXWXdOV015TkRBNU1EZzBOR0poWWpaaU5EQXdOVGs0T0dNNE1XTTJOek5sWWpJNU1XUXlZamd3TlRZMk5qTTBOREJrTm1KaVpUSTFOekkxTnpGa05XUTRNamt3TVRabE5EUmpabVk0WVdWbE5UWm1Nell5TlRabU5qRmpNVGRsTVdJMU9UaGlNekkyT1RjeVl6VmxaRGsxTkdZeE9XVTNZakkxWmpZM1pUaGtPV0UxWVRnellqTTNNekl6TjJJNU5UbGxZakJrTnpBeE5EYzRaRE5tWXpFNFkySTVPR0l4T0RCak1HVTROVGMzTXpnNVpHVXlNalk0WXpZeE16WTVPVGRpTlRsak16VTRPRGhrWm1Vek5qaGxPVGM0WldNME5UUTRNVGsxIiwidXJscyI6eyJhcGkiOiJodHRwczovL2FwaS5jb21wbHljdWJlLmNvbSIsInN5bmMiOiJ3c3M6Ly94ZHMuY29tcGx5Y3ViZS5jb20iLCJjcm9zc0RldmljZSI6Imh0dHBzOi8veGQuY29tcGx5Y3ViZS5jb20ifSwib3B0aW9ucyI6eyJoaWRlQ29tcGx5Q3ViZUxvZ28iOmZhbHNlLCJlbmFibGVDdXN0b21Mb2dvIjp0cnVlLCJlbmFibGVUZXh0QnJhbmQiOnRydWUsImVuYWJsZUN1c3RvbUNhbGxiYWNrcyI6dHJ1ZSwiZW5hYmxlTmZjIjp0cnVlLCJpZGVudGl0eUNoZWNrTGl2ZW5lc3NBdHRlbXB0cyI6NSwiZG9jdW1lbnRJbmZsaWdodFRlc3RBdHRlbXB0cyI6MiwibmZjUmVhZEF0dGVtcHRzIjo1LCJlbmFibGVBZGRyZXNzQXV0b2NvbXBsZXRlIjp0cnVlLCJlbmFibGVXaGl0ZUxhYmVsaW5nIjpmYWxzZX0sImlhdCI6MTc2MjI0MTcyOCwiZXhwIjoxNzYyMjQ1MzI4fQ.r1-Ar3bHbpt944p795I8qwZqIQ9LM6PKSTSs5dtpnk4",
+                    clientId = "6875fb819b4d200002899140"
                 )
             )
         }
