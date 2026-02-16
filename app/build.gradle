@@ -51,15 +51,9 @@ android {
 
 dependencies {
 
-    implementation('com.complycube:complycube-sdk:1.4.16') {
+    implementation('com.complycube:complycube-sdk:1.4.23') {
         exclude group: 'com.google.errorprone', module: 'error_prone_annotations'
     }
-
-//    implementation('com.complycube:complycube-sdk-dev:1.4.11.260-SNAPSHOT') {
-//        exclude group: 'com.google.errorprone', module: 'error_prone_annotations'
-//    }
-
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
