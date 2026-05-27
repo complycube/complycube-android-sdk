@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-05-14T09:19:30.924426+00:00",
+  "timestamp": "2026-05-27T08:38:35.748790+00:00",
   "repo": "complycube/complycube-android-sdk",
-  "run_id": "25852116504",
-  "sha": "c4d658fd333072b4867e0ba2d73e44784786eed7",
+  "run_id": "26500364678",
+  "sha": "ef12d5515b117ca79680d7a7bffd2b33c8a4aa89",
   "matrix": {
     "jdk": "17",
     "gradle": "8.9",
