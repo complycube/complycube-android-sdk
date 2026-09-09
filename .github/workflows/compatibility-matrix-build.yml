@@ -2,8 +2,12 @@ name: Compatibility Matrix Build
 
 on:
   push:
-    branches: ["main"]
-  workflow_dispatch:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   build-matrix:
@@ -72,6 +76,18 @@ jobs:
           distribution: temurin
           java-version: ${{ matrix.jdk }}
 
+      - name: Resolve release SDK version
+        id: release
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${GITHUB_REF_NAME#v}"
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Release tag must be a semantic version such as 1.7.2"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
       - name: Pin Gradle wrapper distribution
         shell: bash
         run: |
@@ -92,8 +108,9 @@ jobs:
           ./gradlew :app:assembleDebug \
             -PAGP_VERSION=${{ matrix.agp }} \
             -PKOTLIN_VERSION=${{ matrix.kotlin }} \
-            -PCOMPILE_SDK=${{ matrix.compileSdk }} \
-            -PTARGET_SDK=${{ matrix.targetSdk }} \
+            -PCOMPLYCUBE_COMPILE_SDK=${{ matrix.compileSdk }} \
+            -PCOMPLYCUBE_TARGET_SDK=${{ matrix.targetSdk }} \
+            -PCOMPLYCUBE_SDK_VERSION=${{ steps.release.outputs.version }} \
             --no-daemon
 
       - name: Write build result JSON
@@ -102,6 +119,7 @@ jobs:
         run: |
           python3 scripts/compat/write_result.py \
             --out "compat-results/result.json" \
+            --sdk "${{ steps.release.outputs.version }}" \
             --jdk "${{ matrix.jdk }}" \
             --gradle "${{ matrix.gradle }}" \
             --agp "${{ matrix.agp }}" \
@@ -114,11 +132,12 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: compat-result-${{ matrix.jdk }}-${{ matrix.gradle }}-${{ matrix.agp }}-${{ matrix.kotlin }}-${{ matrix.compileSdk }}-${{ matrix.targetSdk }}
+          name: compat-result-${{ steps.release.outputs.version }}-${{ matrix.jdk }}-${{ matrix.gradle }}-${{ matrix.agp }}-${{ matrix.kotlin }}-${{ matrix.compileSdk }}-${{ matrix.targetSdk }}
           path: compat-results/result.json
 
   aggregate:
     needs: build-matrix
+    if: always()
     runs-on: ubuntu-latest
 
     steps:
@@ -128,19 +147,21 @@ jobs:
       - name: Download all results
         uses: actions/download-artifact@v4
         with:
-          path: compat-results
+          path: ${{ runner.temp }}/compat-results
 
       - name: Generate compatibility-matrix.md
         shell: bash
         run: |
           python3 scripts/compat/generate_matrix.py \
-            --results-dir compat-results \
+            --results-dir "${{ runner.temp }}/compat-results" \
             --out compatibility-matrix.md
 
       - name: Create PR if matrix changed
         uses: peter-evans/create-pull-request@v6
         with:
           commit-message: "chore: update compatibility matrix"
-          title: "chore: update compatibility matrix"
-          body: "Automated update of compatibility-matrix.md based on CI build matrix results."
+          title: "chore: update compatibility matrix for SDK ${{ github.ref_name }}"
+          body: "Automated update of compatibility-matrix.md for ComplyCube SDK ${{ github.ref_name }}."
           branch: "chore/update-compatibility-matrix"
+          base: "main"
+          add-paths: "compatibility-matrix.md"

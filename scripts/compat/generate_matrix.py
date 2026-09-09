@@ -29,6 +29,7 @@ def main():
     for r in results:
         m = r.get("matrix", {})
         key = (
+            str(m.get("sdk", "unknown")),
             str(m.get("jdk")),
             str(m.get("gradle")),
             str(m.get("agp")),
@@ -46,14 +47,14 @@ def main():
     lines.append("")
     lines.append("## Build combinations")
     lines.append("")
-    lines.append("| JDK | Gradle | AGP | Kotlin | compileSdk | targetSdk | Result |")
-    lines.append("|---:|---:|---:|---:|---:|---:|:---|")
+    lines.append("| SDK | JDK | Gradle | AGP | Kotlin | compileSdk | targetSdk | Result |")
+    lines.append("|---:|---:|---:|---:|---:|---:|---:|:---|")
 
     for key in sorted(by_key.keys()):
-        jdk, gradle, agp, kotlin, compileSdk, targetSdk = key
+        sdk, jdk, gradle, agp, kotlin, compileSdk, targetSdk = key
         res = by_key[key]
         emoji = "✅" if res == "success" else ("❌" if res == "failure" else "⚠️")
-        lines.append(f"| {jdk} | {gradle} | {agp} | {kotlin} | {compileSdk} | {targetSdk} | {emoji} {res} |")
+        lines.append(f"| {sdk} | {jdk} | {gradle} | {agp} | {kotlin} | {compileSdk} | {targetSdk} | {emoji} {res} |")
 
     lines.append("")
     out_path.write_text("\n".join(lines), encoding="utf-8")

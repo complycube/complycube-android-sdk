@@ -8,6 +8,7 @@ from pathlib import Path
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--out", required=True)
+    p.add_argument("--sdk", required=True)
     p.add_argument("--jdk", required=True)
     p.add_argument("--gradle", required=True)
     p.add_argument("--agp", required=True)
@@ -26,6 +27,7 @@ def main():
         "run_id": os.getenv("GITHUB_RUN_ID"),
         "sha": os.getenv("GITHUB_SHA"),
         "matrix": {
+            "sdk": args.sdk,
             "jdk": args.jdk,
             "gradle": args.gradle,
             "agp": args.agp,
