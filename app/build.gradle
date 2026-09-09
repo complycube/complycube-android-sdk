@@ -49,9 +49,11 @@ android {
     }
 }
 
+def complyCubeSdkVersion = (System.getenv("COMPLYCUBE_SDK_VERSION") ?: (project.findProperty("COMPLYCUBE_SDK_VERSION") ?: "1.7.1")).toString()
+
 dependencies {
 
-    implementation('com.complycube:complycube-sdk:1.7.1') {
+    implementation("com.complycube:complycube-sdk:${complyCubeSdkVersion}") {
         exclude group: 'com.google.errorprone', module: 'error_prone_annotations'
     }
     implementation 'androidx.core:core-ktx:1.7.0'
