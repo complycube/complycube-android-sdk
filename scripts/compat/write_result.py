@@ -8,6 +8,7 @@ from pathlib import Path
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--out", required=True)
+    p.add_argument("--profile", required=True)
     p.add_argument("--sdk", required=True)
     p.add_argument("--jdk", required=True)
     p.add_argument("--gradle", required=True)
@@ -15,6 +16,9 @@ def main():
     p.add_argument("--kotlin", required=True)
     p.add_argument("--compileSdk", required=True)
     p.add_argument("--targetSdk", required=True)
+    p.add_argument("--minSdk", required=True)
+    p.add_argument("--validation", choices=("assemble", "full"), required=True)
+    p.add_argument("--policy", choices=("gate", "canary"), required=True)
     p.add_argument("--status", required=True)  # success|failure|cancelled
     args = p.parse_args()
 
@@ -27,6 +31,7 @@ def main():
         "run_id": os.getenv("GITHUB_RUN_ID"),
         "sha": os.getenv("GITHUB_SHA"),
         "matrix": {
+            "profile": args.profile,
             "sdk": args.sdk,
             "jdk": args.jdk,
             "gradle": args.gradle,
@@ -34,6 +39,9 @@ def main():
             "kotlin": args.kotlin,
             "compileSdk": int(args.compileSdk),
             "targetSdk": int(args.targetSdk),
+            "minSdk": int(args.minSdk),
+            "validation": args.validation,
+            "policy": args.policy,
         },
         "result": args.status,
     }
