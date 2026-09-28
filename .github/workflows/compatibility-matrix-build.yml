@@ -2,65 +2,165 @@ name: Compatibility Matrix Build
 
 on:
   push:
-    branches: ["main"]
-  workflow_dispatch:
+    tags:
+      - "[0-9]+.[0-9]+.[0-9]+"
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   build-matrix:
+    name: ${{ matrix.profile }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    continue-on-error: ${{ matrix.experimental }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          - jdk: "17"
+          # Publicly documented stack. Keep this blocking until the public
+          # documentation is aligned with the repository defaults.
+          - profile: documented-stack
+            jdk: "17"
             gradle: "8.9"
             agp: "8.7.2"
             kotlin: "1.9.25"
             compileSdk: 34
             targetSdk: 34
+            minSdk: 21
+            validation: assemble
+            experimental: false
 
-          - jdk: "17"
-            gradle: "8.9"
-            agp: "8.6.1"
-            kotlin: "1.9.25"
-            compileSdk: 34
-            targetSdk: 34
-
-          - jdk: "17"
-            gradle: "8.10.2"
-            agp: "8.8.0"
-            kotlin: "1.9.25"
-            compileSdk: 34
-            targetSdk: 34
-
-          - jdk: "17"
-            gradle: "8.9"
-            agp: "8.7.2"
-            kotlin: "1.9.24"
-            compileSdk: 34
-            targetSdk: 34
-
-          - jdk: "17"
-            gradle: "8.9"
-            agp: "8.7.2"
+          # Lowest fully vendor-supported tuple that can compile against API 34.
+          - profile: supported-floor
+            jdk: "17"
+            gradle: "8.0"
+            agp: "8.1.1"
             kotlin: "2.0.0"
             compileSdk: 34
             targetSdk: 34
+            minSdk: 21
+            validation: assemble
+            experimental: false
 
-          - jdk: "17"
-            gradle: "8.9"
-            agp: "8.7.2"
-            kotlin: "1.9.25"
-            compileSdk: 33
-            targetSdk: 33
+          # Upper supported Gradle/AGP boundary for Kotlin 2.0.0.
+          - profile: kotlin-2.0-upper
+            jdk: "17"
+            gradle: "8.5"
+            agp: "8.3.1"
+            kotlin: "2.0.0"
+            compileSdk: 34
+            targetSdk: 34
+            minSdk: 21
+            validation: assemble
+            experimental: false
 
-          - jdk: "17"
+          # Exact defaults from this repository.
+          - profile: repository-default
+            jdk: "17"
             gradle: "8.9"
-            agp: "8.7.2"
-            kotlin: "1.9.25"
+            agp: "8.5.2"
+            kotlin: "2.1.0"
+            compileSdk: 34
+            targetSdk: 34
+            minSdk: 24
+            validation: assemble
+            experimental: false
+
+          # Minimum AGP/Gradle line officially supporting API 35.
+          - profile: api-35-floor
+            jdk: "17"
+            gradle: "8.7"
+            agp: "8.6.1"
+            kotlin: "2.1.21"
             compileSdk: 35
             targetSdk: 35
+            minSdk: 21
+            validation: assemble
+            experimental: false
+
+          # Recommended API 34 stack; run the full verification suite.
+          - profile: recommended-api34
+            jdk: "17"
+            gradle: "8.9"
+            agp: "8.7.2"
+            kotlin: "2.1.21"
+            compileSdk: 34
+            targetSdk: 34
+            minSdk: 21
+            validation: full
+            experimental: false
+
+          # Common migration state: compile with API 35 while targeting API 34.
+          - profile: compile35-target34
+            jdk: "17"
+            gradle: "8.9"
+            agp: "8.7.2"
+            kotlin: "2.1.21"
+            compileSdk: 35
+            targetSdk: 34
+            minSdk: 21
+            validation: assemble
+            experimental: false
+
+          # Recommended API 35 stack; run the full verification suite.
+          - profile: recommended-api35
+            jdk: "17"
+            gradle: "8.9"
+            agp: "8.7.2"
+            kotlin: "2.1.21"
+            compileSdk: 35
+            targetSdk: 35
+            minSdk: 21
+            validation: full
+            experimental: false
+
+          # Same recommended stack on the next LTS JDK.
+          - profile: jdk-21
+            jdk: "21"
+            gradle: "8.9"
+            agp: "8.7.2"
+            kotlin: "2.1.21"
+            compileSdk: 35
+            targetSdk: 35
+            minSdk: 21
+            validation: assemble
+            experimental: false
+
+          # Forward-looking rows record compatibility without blocking a release.
+          - profile: modern-agp8
+            jdk: "21"
+            gradle: "8.10.2"
+            agp: "8.8.2"
+            kotlin: "2.2.21"
+            compileSdk: 35
+            targetSdk: 35
+            minSdk: 21
+            validation: assemble
+            experimental: true
+
+          - profile: api-36
+            jdk: "21"
+            gradle: "8.11.1"
+            agp: "8.9.2"
+            kotlin: "2.2.21"
+            compileSdk: 36
+            targetSdk: 36
+            minSdk: 21
+            validation: assemble
+            experimental: true
+
+          - profile: agp9-api37
+            jdk: "21"
+            gradle: "9.5.0"
+            agp: "9.3.1"
+            kotlin: "2.4.20"
+            compileSdk: 37
+            targetSdk: 37
+            minSdk: 21
+            validation: assemble
+            experimental: true
 
     steps:
       - name: Checkout
@@ -71,6 +171,18 @@ jobs:
         with:
           distribution: temurin
           java-version: ${{ matrix.jdk }}
+
+      - name: Resolve release SDK version
+        id: release
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${GITHUB_REF_NAME#v}"
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Release tag must be a semantic version such as 1.7.2"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
 
       - name: Pin Gradle wrapper distribution
         shell: bash
@@ -84,16 +196,26 @@ jobs:
           sed -i "s|distributionUrl=.*|distributionUrl=https\\://services.gradle.org/distributions/gradle-${{ matrix.gradle }}-bin.zip|g" "$FILE"
           cat "$FILE"
 
-      - name: Assemble Debug
-        id: assemble
+      - name: Build and verify
+        id: build
         shell: bash
         run: |
           ./gradlew --version
-          ./gradlew :app:assembleDebug \
+          tasks=(:app:assembleDebug)
+          if [[ "${{ matrix.validation }}" == "full" ]]; then
+            tasks+=(
+              :app:assembleRelease
+              :app:testDebugUnitTest
+              :app:lintDebug
+            )
+          fi
+          ./gradlew "${tasks[@]}" \
             -PAGP_VERSION=${{ matrix.agp }} \
             -PKOTLIN_VERSION=${{ matrix.kotlin }} \
-            -PCOMPILE_SDK=${{ matrix.compileSdk }} \
-            -PTARGET_SDK=${{ matrix.targetSdk }} \
+            -PCOMPLYCUBE_COMPILE_SDK=${{ matrix.compileSdk }} \
+            -PCOMPLYCUBE_TARGET_SDK=${{ matrix.targetSdk }} \
+            -PCOMPLYCUBE_MIN_SDK=${{ matrix.minSdk }} \
+            -PCOMPLYCUBE_SDK_VERSION=${{ steps.release.outputs.version }} \
             --no-daemon
 
       - name: Write build result JSON
@@ -102,23 +224,29 @@ jobs:
         run: |
           python3 scripts/compat/write_result.py \
             --out "compat-results/result.json" \
+            --profile "${{ matrix.profile }}" \
+            --sdk "${{ steps.release.outputs.version }}" \
             --jdk "${{ matrix.jdk }}" \
             --gradle "${{ matrix.gradle }}" \
             --agp "${{ matrix.agp }}" \
             --kotlin "${{ matrix.kotlin }}" \
             --compileSdk "${{ matrix.compileSdk }}" \
             --targetSdk "${{ matrix.targetSdk }}" \
-            --status "${{ steps.assemble.outcome }}"
+            --minSdk "${{ matrix.minSdk }}" \
+            --validation "${{ matrix.validation }}" \
+            --policy "${{ matrix.experimental && 'canary' || 'gate' }}" \
+            --status "${{ steps.build.outcome }}"
 
       - name: Upload result artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: compat-result-${{ matrix.jdk }}-${{ matrix.gradle }}-${{ matrix.agp }}-${{ matrix.kotlin }}-${{ matrix.compileSdk }}-${{ matrix.targetSdk }}
+          name: compat-result-${{ steps.release.outputs.version }}-${{ matrix.profile }}
           path: compat-results/result.json
 
   aggregate:
     needs: build-matrix
+    if: always()
     runs-on: ubuntu-latest
 
     steps:
@@ -128,19 +256,21 @@ jobs:
       - name: Download all results
         uses: actions/download-artifact@v4
         with:
-          path: compat-results
+          path: ${{ runner.temp }}/compat-results
 
       - name: Generate compatibility-matrix.md
         shell: bash
         run: |
           python3 scripts/compat/generate_matrix.py \
-            --results-dir compat-results \
+            --results-dir "${{ runner.temp }}/compat-results" \
             --out compatibility-matrix.md
 
       - name: Create PR if matrix changed
         uses: peter-evans/create-pull-request@v6
         with:
           commit-message: "chore: update compatibility matrix"
-          title: "chore: update compatibility matrix"
-          body: "Automated update of compatibility-matrix.md based on CI build matrix results."
+          title: "chore: update compatibility matrix for SDK ${{ github.ref_name }}"
+          body: "Automated update of compatibility-matrix.md for ComplyCube SDK ${{ github.ref_name }}."
           branch: "chore/update-compatibility-matrix"
+          base: "main"
+          add-paths: "compatibility-matrix.md"

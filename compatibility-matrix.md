@@ -1,15 +1,15 @@
 # Compatibility Matrix
 
-> Generated from CI build-matrix results (assembleDebug).
+> Generated from release-tag CI results. Every row uses the exact SDK version shown; no floating or historical SDK versions are substituted.
+
+A passing row verifies that the sample application compiled and packaged with that exact combination. Unlisted combinations are **not tested**, not automatically incompatible. Gate rows are release requirements; canary rows provide early warning and do not block a release.
+
+`assemble` builds the debug APK. `full` also builds the release APK, runs unit tests, and runs Android lint.
 
 ## Build combinations
 
-| JDK | Gradle | AGP | Kotlin | compileSdk | targetSdk | Result |
-|---:|---:|---:|---:|---:|---:|:---|
-| 17 | 8.10.2 | 8.8.0 | 1.9.25 | 34 | 34 | ✅ success |
-| 17 | 8.9 | 8.6.1 | 1.9.25 | 34 | 34 | ✅ success |
-| 17 | 8.9 | 8.7.2 | 1.9.24 | 34 | 34 | ✅ success |
-| 17 | 8.9 | 8.7.2 | 1.9.25 | 33 | 33 | ✅ success |
-| 17 | 8.9 | 8.7.2 | 1.9.25 | 34 | 34 | ✅ success |
-| 17 | 8.9 | 8.7.2 | 1.9.25 | 35 | 35 | ✅ success |
-| 17 | 8.9 | 8.7.2 | 2.0.0 | 34 | 34 | ✅ success |
+No verified release results are available yet. The next semantic-version release tag will populate this report.
+
+## Scope
+
+These checks verify dependency resolution, compilation, tests/lint where marked `full`, and APK packaging. They do not by themselves prove runtime behavior on every Android device or OS version.

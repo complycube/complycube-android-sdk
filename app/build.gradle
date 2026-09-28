@@ -49,6 +49,8 @@ android {
     }
 }
 
+def complyCubeSdkVersion = (System.getenv("COMPLYCUBE_SDK_VERSION") ?: (project.findProperty("COMPLYCUBE_SDK_VERSION") ?: "1.7.1")).toString()
+
 dependencies {
 
     implementation('com.complycube:complycube-sdk:1.7.2') {
