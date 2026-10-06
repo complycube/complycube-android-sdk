@@ -1,0 +1,118 @@
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+// A small shared fixture, evaluated independently by each host's own Gradle/AGP/KGP.
+def matrix = new JsonSlurper().parse(file('../matrix.json'))
+def host = matrix.toolchains[rootProject.name]
+def scenarioId = providers.gradleProperty('scenario').getOrElse(rootProject.name == 'baseline-host' ? 'A' : 'B')
+def scenario = matrix.scenarios[scenarioId]
+if (scenario == null || scenario.host != rootProject.name) throw new GradleException('Scenario belongs to a different independent build')
+def control = providers.gradleProperty('control').getOrElse('false').toBoolean()
+def sdkVersion = providers.gradleProperty('sdkVersion').getOrElse(matrix.sdk.version)
+if (!(sdkVersion ==~ /\d+\.\d+\.\d+(?:-[A-Za-z0-9]+(?:[.-][A-Za-z0-9]+)*)?/) || sdkVersion.endsWith('SNAPSHOT')) {
+    throw new GradleException('sdkVersion must be an exact immutable release version')
+}
+def variant = providers.gradleProperty('testBuildType').getOrElse('debug')
+if (!(variant in ['debug', 'release'])) throw new GradleException('testBuildType must be debug or release')
+def sdkCoordinate = "${matrix.sdk.group}:${matrix.sdk.artifact}:${sdkVersion}"
+def family = scenario.family
+def fixture = file('../shared')
+if (family == 'compose') apply plugin: 'org.jetbrains.kotlin.plugin.compose'
+layout.buildDirectory.set(file("build/${scenarioId}${control ? '-control' : ''}"))
+
+android {
+    namespace 'com.complycube.compat'
+    compileSdk host.compileSdk
+    buildToolsVersion host.buildTools
+    defaultConfig {
+        applicationId 'com.complycube.compat'
+        minSdk host.minSdk
+        targetSdk host.targetSdk
+        versionCode 1
+        versionName '1.0'
+    }
+    // Runtime assertions live in the separate :driver APK (shared/driver), which
+    // exercises both the debug and R8 host APKs without sharing their classes.
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions { jvmTarget = '11' }
+    buildFeatures { compose = family == 'compose' }
+    sourceSets {
+        main {
+            manifest.srcFile "${fixture}/AndroidManifest.xml"
+            res.srcDirs = ["${fixture}/res"]
+            java.srcDirs = ["${fixture}/main", "${fixture}/${control ? 'control' : 'sdk'}",
+                            "${fixture}/${family == 'compose' ? 'compose' : 'plain'}",
+                            "${fixture}/${family == 'ktor' ? 'ktor' : 'no-network'}"]
+        }
+    }
+}
+
+dependencies {
+    implementation "androidx.activity:activity-ktx:${matrix.dependencies.activity}"
+    if (!control) implementation sdkCoordinate
+    if (family == 'ktor') {
+        implementation platform("io.ktor:ktor-bom:${matrix.dependencies.ktor}")
+        ['ktor-client-core', 'ktor-client-android', 'ktor-client-content-negotiation', 'ktor-serialization-kotlinx-json'].each {
+            implementation "io.ktor:${it}:${matrix.dependencies.ktor}"
+        }
+    }
+    if (family == 'compose') {
+        implementation platform("androidx.compose:compose-bom:${matrix.dependencies.composeBom}")
+        implementation 'androidx.compose.ui:ui'
+        implementation 'androidx.compose.material3:material3'
+    }
+}
+
+// Original Maven artifacts (including nested JARs), not AGP's transformed classes.
+tasks.register('compatEvidence') {
+    doLast {
+        def output = new File(providers.gradleProperty('evidenceDir').getOrElse("${buildDir}/evidence"))
+        output.mkdirs()
+        def config = configurations.getByName("${variant}RuntimeClasspath")
+        def artifacts = config.resolvedConfiguration.resolvedArtifacts.collect { a ->
+            [coordinate: a.moduleVersion.id.toString(), file: a.file.absolutePath]
+        }.sort { it.coordinate }
+        def edges = config.incoming.resolutionResult.allDependencies.collect { d ->
+            [from: d.from.id.displayName, requested: d.requested.displayName,
+             selected: d instanceof org.gradle.api.artifacts.result.ResolvedDependencyResult ? d.selected.id.displayName : null]
+        }
+        def evidence = [scenario: scenarioId, control: control, sdk: control ? null : sdkCoordinate,
+            variant: variant, toolchain: [gradle: gradle.gradleVersion, agp: project.plugins.findPlugin('com.android.application').class.classLoader.loadClass('com.android.Version').getField('ANDROID_GRADLE_PLUGIN_VERSION').get(null),
+                kotlin: project.plugins.findPlugin('org.jetbrains.kotlin.android').class.classLoader.loadClass('org.jetbrains.kotlin.config.KotlinCompilerVersion').getField('VERSION').get(null), jdk: System.getProperty('java.version'),
+                compileSdk: android.compileSdk, minSdk: host.minSdk, targetSdk: host.targetSdk, buildTools: android.buildToolsVersion],
+            requested: config.allDependencies.collect { "${it.group}:${it.name}:${it.version}" },
+            components: config.incoming.resolutionResult.allComponents.collect { it.id.displayName }.sort(),
+            edges: edges, artifacts: artifacts]
+        if (!control) {
+            // Fetch publication metadata using the same configured Maven repositories.
+            ['pom', 'module'].each { ext ->
+                def metadata = configurations.detachedConfiguration(dependencies.create("${sdkCoordinate}@${ext}"))
+                metadata.transitive = false
+                metadata.resolve().each { f -> new File(output, "sdk.${ext}").bytes = f.bytes }
+            }
+        }
+        new File(output, 'resolution.json').text = JsonOutput.prettyPrint(JsonOutput.toJson(evidence))
+    }
+}
+
+tasks.register('compatGraph', org.gradle.api.tasks.diagnostics.DependencyReportTask) {
+    configurations = [project.configurations.getByName("${variant}RuntimeClasspath")]
+}
+matrix.insight.eachWithIndex { familyName, index ->
+    tasks.register("compatInsight${index}", org.gradle.api.tasks.diagnostics.DependencyInsightReportTask) {
+        configuration = project.configurations.getByName("${variant}RuntimeClasspath")
+        showingAllVariants.set(false)
+        setDependencySpec { it.requested.displayName.startsWith(familyName) }
+    }
+}

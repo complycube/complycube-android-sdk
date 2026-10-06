@@ -1,0 +1,6 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id "org.jetbrains.kotlin.plugin.compose" apply false
+}
+apply from: '../shared/host.gradle'
