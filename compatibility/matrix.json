@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "sdk": {
+    "group": "com.complycube",
+    "artifact": "complycube-sdk",
+    "version": "1.7.2",
+    "sha256": "d96a8f8f627f5bdf8cbc07420ec6386cb5c64c53691a569aa30128d1f1867bbb"
+  },
+  "toolchains": {
+    "baseline-host": {
+      "gradle": "8.9",
+      "gradleSha256": "d725d707bfabd4dfdc958c624003b3c80accc03f7037b5122c4b1d0ef15cecabf",
+      "agp": "8.7.2",
+      "kotlin": "1.9.25",
+      "jdk": 17,
+      "compileSdk": 34,
+      "targetSdk": 34,
+      "minSdk": 21,
+      "buildTools": "34.0.0",
+      "support": "UNVERIFIED: repository README documented minimum; outside Kotlin fully supported Gradle/AGP range; not an established SDK consumer floor",
+      "jdkVersion": "17.0.15",
+      "jdkDistribution": "temurin",
+      "jdkRuntime": "17.0.15+6"
+    },
+    "modern-host": {
+      "gradle": "8.13",
+      "gradleSha256": "20f1b1176237254a6fc204d8434196fa11a4cfb387567519c61556e8710aed78",
+      "agp": "8.11.1",
+      "kotlin": "2.2.21",
+      "jdk": 17,
+      "compileSdk": 36,
+      "targetSdk": 35,
+      "minSdk": 24,
+      "buildTools": "35.0.0",
+      "support": "Toolchain tuple within official AGP and KGP ranges; SDK compatibility unverified",
+      "jdkVersion": "17.0.15",
+      "jdkDistribution": "temurin",
+      "jdkRuntime": "17.0.15+6"
+    }
+  },
+  "dependencies": {
+    "activity": "1.7.2",
+    "junit": "4.13.2",
+    "runner": "1.6.2",
+    "uiautomator": "2.3.0",
+    "ktor": "3.1.3",
+    "composeBom": "2025.10.00"
+  },
+  "device": {
+    "api": 35,
+    "abi": "x86_64",
+    "locale": "en-US"
+  },
+  "scenarios": {
+    "A": {
+      "host": "baseline-host",
+      "family": "minimal",
+      "policy": "gate",
+      "forbidden": [
+        "io.ktor:*"
+      ],
+      "expected": {
+        "androidx.compose.ui:ui-android": "1.7.8",
+        "androidx.compose.material3:material3-android": "1.3.2"
+      }
+    },
+    "B": {
+      "host": "modern-host",
+      "family": "minimal",
+      "policy": "exploratory",
+      "forbidden": [
+        "io.ktor:*"
+      ],
+      "expected": {
+        "androidx.compose.ui:ui-android": "1.7.8",
+        "androidx.compose.material3:material3-android": "1.3.2"
+      }
+    },
+    "C": {
+      "host": "modern-host",
+      "family": "ktor",
+      "policy": "exploratory",
+      "compareTo": "B",
+      "expected": {
+        "io.ktor:*": "3.1.3",
+        "androidx.compose.ui:ui-android": "1.7.8",
+        "androidx.compose.material3:material3-android": "1.3.2"
+      }
+    },
+    "D": {
+      "host": "modern-host",
+      "family": "compose",
+      "policy": "exploratory",
+      "compareTo": "B",
+      "forbidden": [
+        "io.ktor:*"
+      ],
+      "expected": {
+        "androidx.compose.ui:ui-android": "1.9.3",
+        "androidx.compose.foundation:foundation-android": "1.9.3",
+        "androidx.compose.runtime:runtime-android": "1.9.3",
+        "androidx.compose.material:material-android": "1.9.3",
+        "androidx.compose.material3:material3-android": "1.4.0"
+      }
+    }
+  },
+  "insight": [
+    "io.ktor",
+    "androidx.compose",
+    "org.jetbrains.kotlinx",
+    "androidx.camera",
+    "io.sentry",
+    "com.google.android.libraries.places",
+    "androidx.media3",
+    "com.google.mediapipe",
+    "com.google.android.gms"
+  ]
+}

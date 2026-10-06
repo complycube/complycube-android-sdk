@@ -1,0 +1,50 @@
+import groovy.json.JsonSlurper
+
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+// Self-instrumenting black-box driver, built by each host's own Gradle/AGP/KGP.
+// An in-app androidTest APK omits every library already on the host's runtime
+// classpath (Kotlin stdlib, androidx.test:monitor via the SDK) and borrows them
+// from the host APK. R8 strips those classes from the release host, so that
+// design crashes before any assertion runs. This APK carries its own copy of
+// every test dependency, runs in its own process, and drives the host via
+// explicit Intents and UI Automator only.
+def matrix = new JsonSlurper().parse(rootProject.file('../matrix.json'))
+def host = matrix.toolchains[rootProject.name]
+def control = providers.gradleProperty('control').getOrElse('false').toBoolean()
+def fixture = rootProject.file('../shared')
+// Keep outputs beside the scenario's host build, never inside the hashed shared fixture.
+layout.buildDirectory.set(rootProject.layout.buildDirectory.dir('driver'))
+
+android {
+    namespace 'com.complycube.compat.driver'
+    compileSdk host.compileSdk
+    buildToolsVersion host.buildTools
+    defaultConfig {
+        applicationId 'com.complycube.compat.driver'
+        minSdk host.minSdk
+        targetSdk host.targetSdk
+        versionCode 1
+        versionName '1.0'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions { jvmTarget = '11' }
+    sourceSets {
+        main {
+            manifest.srcFile file('AndroidManifest.xml')
+            java.srcDirs = ["${fixture}/androidTest"] + (control ? [] : ["${fixture}/sdkTest"])
+        }
+    }
+}
+
+dependencies {
+    implementation "junit:junit:${matrix.dependencies.junit}"
+    implementation "androidx.test:runner:${matrix.dependencies.runner}"
+    implementation "androidx.test.uiautomator:uiautomator:${matrix.dependencies.uiautomator}"
+}

@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- The loopback fixture server runs in this process. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <queries>
+        <package android:name="com.complycube.compat" />
+    </queries>
+    <application android:label="Compatibility driver" />
+    <!-- Instruments itself, so host classes are never loaded into the test process. -->
+    <instrumentation
+        android:name="androidx.test.runner.AndroidJUnitRunner"
+        android:targetPackage="com.complycube.compat.driver" />
+</manifest>

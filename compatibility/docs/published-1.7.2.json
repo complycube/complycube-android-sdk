@@ -1,0 +1,921 @@
+{
+  "coordinate": "com.complycube:complycube-sdk:1.7.2",
+  "sha256": "d96a8f8f627f5bdf8cbc07420ec6386cb5c64c53691a569aa30128d1f1867bbb",
+  "source": "https://repo.maven.apache.org/maven2/com/complycube/complycube-sdk/1.7.2/",
+  "class_count": 6080,
+  "nested_jars": [
+    "classes.jar",
+    "libs/classes.jar",
+    "libs/ktor-shaded-2.3.13.jar"
+  ],
+  "packages": {
+    "com/complycube/sdk": 30,
+    "com/complycube/sdk/analytics/core": 11,
+    "com/complycube/sdk/analytics/factory": 1,
+    "com/complycube/sdk/analytics/model": 27,
+    "com/complycube/sdk/analytics/service": 10,
+    "com/complycube/sdk/common": 19,
+    "com/complycube/sdk/common/capture": 58,
+    "com/complycube/sdk/common/capture/face": 31,
+    "com/complycube/sdk/common/capture/video": 26,
+    "com/complycube/sdk/common/crypto": 2,
+    "com/complycube/sdk/common/data": 201,
+    "com/complycube/sdk/common/permission": 9,
+    "com/complycube/sdk/data": 4,
+    "com/complycube/sdk/data/local": 6,
+    "com/complycube/sdk/data/local/model": 4,
+    "com/complycube/sdk/data/local/repository": 8,
+    "com/complycube/sdk/data/remote": 60,
+    "com/complycube/sdk/data/remote/model": 8,
+    "com/complycube/sdk/data/remote/model/request": 116,
+    "com/complycube/sdk/data/remote/model/response": 348,
+    "com/complycube/sdk/data/remote/model/response/mappers": 3,
+    "com/complycube/sdk/data/remote/repository": 76,
+    "com/complycube/sdk/data/util": 4,
+    "com/complycube/sdk/di": 67,
+    "com/complycube/sdk/domain": 4,
+    "com/complycube/sdk/domain/analyzer": 16,
+    "com/complycube/sdk/domain/analyzer/recognizer": 58,
+    "com/complycube/sdk/domain/eid": 14,
+    "com/complycube/sdk/domain/mediapipe": 7,
+    "com/complycube/sdk/domain/mlkit": 9,
+    "com/complycube/sdk/domain/model": 38,
+    "com/complycube/sdk/domain/repository": 18,
+    "com/complycube/sdk/domain/usecase/addresscapture": 22,
+    "com/complycube/sdk/domain/usecase/common": 68,
+    "com/complycube/sdk/domain/usecase/customerinfo": 17,
+    "com/complycube/sdk/domain/usecase/document": 45,
+    "com/complycube/sdk/domain/usecase/eid": 10,
+    "com/complycube/sdk/domain/usecase/groupedusecases": 13,
+    "com/complycube/sdk/domain/usecase/otp": 4,
+    "com/complycube/sdk/domain/usecase/result": 2,
+    "com/complycube/sdk/domain/usecase/router": 6,
+    "com/complycube/sdk/domain/usecase/selfie": 13,
+    "com/complycube/sdk/domain/usecase/smartform": 7,
+    "com/complycube/sdk/domain/usecase/userconsent": 3,
+    "com/complycube/sdk/domain/usecase/video": 11,
+    "com/complycube/sdk/domain/usecase/workflow": 4,
+    "com/complycube/sdk/internal": 1,
+    "com/complycube/sdk/monitoring": 4,
+    "com/complycube/sdk/navigation": 221,
+    "com/complycube/sdk/presentation": 26,
+    "com/complycube/sdk/presentation/accessrestriction": 7,
+    "com/complycube/sdk/presentation/accessrestriction/viewmodel": 1,
+    "com/complycube/sdk/presentation/addresscapture": 62,
+    "com/complycube/sdk/presentation/addresscapture/util": 1,
+    "com/complycube/sdk/presentation/addresscapture/viewdata": 3,
+    "com/complycube/sdk/presentation/addresscapture/viewmodel": 12,
+    "com/complycube/sdk/presentation/common": 43,
+    "com/complycube/sdk/presentation/common/async": 10,
+    "com/complycube/sdk/presentation/common/camera": 14,
+    "com/complycube/sdk/presentation/common/capture": 86,
+    "com/complycube/sdk/presentation/common/composable": 173,
+    "com/complycube/sdk/presentation/common/composable/documentselector": 13,
+    "com/complycube/sdk/presentation/common/country": 25,
+    "com/complycube/sdk/presentation/common/disk": 3,
+    "com/complycube/sdk/presentation/common/qualitycheckerzoom": 8,
+    "com/complycube/sdk/presentation/common/utils": 27,
+    "com/complycube/sdk/presentation/complete": 12,
+    "com/complycube/sdk/presentation/customerinfo": 33,
+    "com/complycube/sdk/presentation/customerinfo/util": 2,
+    "com/complycube/sdk/presentation/customerinfo/viewmodel": 6,
+    "com/complycube/sdk/presentation/dialog": 13,
+    "com/complycube/sdk/presentation/document": 133,
+    "com/complycube/sdk/presentation/document/capture": 47,
+    "com/complycube/sdk/presentation/documentcheckloading": 6,
+    "com/complycube/sdk/presentation/documentcheckloading/viewmodel": 4,
+    "com/complycube/sdk/presentation/eid": 3,
+    "com/complycube/sdk/presentation/eid/ui": 70,
+    "com/complycube/sdk/presentation/eid/viewdata": 16,
+    "com/complycube/sdk/presentation/eid/viewmodels": 8,
+    "com/complycube/sdk/presentation/otp": 36,
+    "com/complycube/sdk/presentation/otp/viewmodel": 12,
+    "com/complycube/sdk/presentation/permission": 78,
+    "com/complycube/sdk/presentation/proofofaddress": 110,
+    "com/complycube/sdk/presentation/proofofaddress/capture": 34,
+    "com/complycube/sdk/presentation/scanner": 5,
+    "com/complycube/sdk/presentation/selfie": 63,
+    "com/complycube/sdk/presentation/selfie/capture": 56,
+    "com/complycube/sdk/presentation/smartform": 111,
+    "com/complycube/sdk/presentation/smartform/components": 237,
+    "com/complycube/sdk/presentation/smartform/components/picker": 43,
+    "com/complycube/sdk/presentation/smartform/components/signature": 37,
+    "com/complycube/sdk/presentation/smartform/governmentid": 74,
+    "com/complycube/sdk/presentation/smartform/router": 44,
+    "com/complycube/sdk/presentation/smartform/session": 3,
+    "com/complycube/sdk/presentation/smartform/state": 4,
+    "com/complycube/sdk/presentation/smartform/submit": 9,
+    "com/complycube/sdk/presentation/smartform/translation": 10,
+    "com/complycube/sdk/presentation/smartform/upload": 11,
+    "com/complycube/sdk/presentation/smartform/util": 34,
+    "com/complycube/sdk/presentation/smartform/viewdata": 11,
+    "com/complycube/sdk/presentation/smartform/viewmodel": 60,
+    "com/complycube/sdk/presentation/theme": 105,
+    "com/complycube/sdk/presentation/userconsent": 27,
+    "com/complycube/sdk/presentation/video": 73,
+    "com/complycube/sdk/presentation/video/capture": 59,
+    "com/complycube/sdk/presentation/video/challenge": 4,
+    "com/complycube/sdk/presentation/video/components": 7,
+    "com/complycube/sdk/presentation/video/finish": 3,
+    "com/complycube/sdk/presentation/video/restart": 4,
+    "com/complycube/sdk/presentation/video/state": 3,
+    "com/complycube/sdk/presentation/welcome": 17,
+    "com/complycube/sdk/utils": 7,
+    "com/complycube/shaded/ktor/client": 19,
+    "com/complycube/shaded/ktor/client/call": 16,
+    "com/complycube/shaded/ktor/client/content": 5,
+    "com/complycube/shaded/ktor/client/engine": 37,
+    "com/complycube/shaded/ktor/client/engine/android": 14,
+    "com/complycube/shaded/ktor/client/network/sockets": 7,
+    "com/complycube/shaded/ktor/client/plugins": 114,
+    "com/complycube/shaded/ktor/client/plugins/api": 31,
+    "com/complycube/shaded/ktor/client/plugins/cache": 31,
+    "com/complycube/shaded/ktor/client/plugins/cache/storage": 35,
+    "com/complycube/shaded/ktor/client/plugins/contentnegotiation": 14,
+    "com/complycube/shaded/ktor/client/plugins/cookies": 23,
+    "com/complycube/shaded/ktor/client/plugins/logging": 35,
+    "com/complycube/shaded/ktor/client/plugins/observer": 13,
+    "com/complycube/shaded/ktor/client/plugins/websocket": 38,
+    "com/complycube/shaded/ktor/client/request": 71,
+    "com/complycube/shaded/ktor/client/request/forms": 33,
+    "com/complycube/shaded/ktor/client/statement": 19,
+    "com/complycube/shaded/ktor/client/utils": 19,
+    "com/complycube/shaded/ktor/content": 1,
+    "com/complycube/shaded/ktor/events": 5,
+    "com/complycube/shaded/ktor/http": 165,
+    "com/complycube/shaded/ktor/http/auth": 11,
+    "com/complycube/shaded/ktor/http/content": 43,
+    "com/complycube/shaded/ktor/http/parsing": 22,
+    "com/complycube/shaded/ktor/http/parsing/regex": 3,
+    "com/complycube/shaded/ktor/http/websocket": 1,
+    "com/complycube/shaded/ktor/serialization": 19,
+    "com/complycube/shaded/ktor/serialization/kotlinx": 18,
+    "com/complycube/shaded/ktor/serialization/kotlinx/json": 13,
+    "com/complycube/shaded/ktor/util": 102,
+    "com/complycube/shaded/ktor/util/cio": 19,
+    "com/complycube/shaded/ktor/util/collections": 7,
+    "com/complycube/shaded/ktor/util/converters": 8,
+    "com/complycube/shaded/ktor/util/date": 12,
+    "com/complycube/shaded/ktor/util/debug": 5,
+    "com/complycube/shaded/ktor/util/debug/plugins": 6,
+    "com/complycube/shaded/ktor/util/internal": 16,
+    "com/complycube/shaded/ktor/util/logging": 3,
+    "com/complycube/shaded/ktor/util/network": 1,
+    "com/complycube/shaded/ktor/util/pipeline": 23,
+    "com/complycube/shaded/ktor/util/reflect": 4,
+    "com/complycube/shaded/ktor/utils/io": 188,
+    "com/complycube/shaded/ktor/utils/io/bits": 14,
+    "com/complycube/shaded/ktor/utils/io/charsets": 6,
+    "com/complycube/shaded/ktor/utils/io/concurrent": 1,
+    "com/complycube/shaded/ktor/utils/io/core": 55,
+    "com/complycube/shaded/ktor/utils/io/core/internal": 14,
+    "com/complycube/shaded/ktor/utils/io/errors": 1,
+    "com/complycube/shaded/ktor/utils/io/internal": 32,
+    "com/complycube/shaded/ktor/utils/io/internal/jvm": 1,
+    "com/complycube/shaded/ktor/utils/io/jvm/javaio": 23,
+    "com/complycube/shaded/ktor/utils/io/jvm/nio": 6,
+    "com/complycube/shaded/ktor/utils/io/nio": 5,
+    "com/complycube/shaded/ktor/utils/io/pool": 14,
+    "com/complycube/shaded/ktor/utils/io/streams": 11,
+    "com/complycube/shaded/ktor/utils/io/utils": 1,
+    "com/complycube/shaded/ktor/websocket": 91,
+    "com/complycube/shaded/ktor/websocket/internals": 2,
+    "com/complycube/shaded/ktor/websocket/serialization": 3,
+    "com/fingerprintjs/android/fpjs_pro": 33,
+    "com/fingerprintjs/android/fpjs_pro_internal": 492,
+    "com/google/android/renderscript": 4
+  },
+  "native": [
+    {
+      "path": "jni/arm64-v8a/librenderscript-toolkit.so",
+      "abi": "arm64-v8a",
+      "name": "librenderscript-toolkit.so",
+      "origin": "com.complycube:complycube-sdk:1.7.2!jni/arm64-v8a/librenderscript-toolkit.so",
+      "sha256": "3d115823d809211de64c342094274e972285b28d0a31f30d9898ef5895d27f3f"
+    },
+    {
+      "path": "jni/armeabi-v7a/librenderscript-toolkit.so",
+      "abi": "armeabi-v7a",
+      "name": "librenderscript-toolkit.so",
+      "origin": "com.complycube:complycube-sdk:1.7.2!jni/armeabi-v7a/librenderscript-toolkit.so",
+      "sha256": "3bdc236cf1b1afccf04b91c57c47cc566d929e4d80d4dfb8fb0fe7da809d73b2"
+    },
+    {
+      "path": "jni/x86/librenderscript-toolkit.so",
+      "abi": "x86",
+      "name": "librenderscript-toolkit.so",
+      "origin": "com.complycube:complycube-sdk:1.7.2!jni/x86/librenderscript-toolkit.so",
+      "sha256": "537d23fdc0cc5850c68c40594c4ab689f0c39fdc89d3d41e9ede0e52cb2830e1"
+    },
+    {
+      "path": "jni/x86_64/librenderscript-toolkit.so",
+      "abi": "x86_64",
+      "name": "librenderscript-toolkit.so",
+      "origin": "com.complycube:complycube-sdk:1.7.2!jni/x86_64/librenderscript-toolkit.so",
+      "sha256": "c025e30fd2387670b6c6043ad5d353bacc15635f6210ff37c81d73d885993816"
+    }
+  ],
+  "providers": [
+    {
+      "authority": "com.complycube.compat.sdkinitializer",
+      "class": "com.complycube.sdk.SdkInitializer",
+      "directive": null,
+      "origin": "com.complycube:complycube-sdk:1.7.2!AndroidManifest.xml"
+    },
+    {
+      "authority": "com.complycube.compat.SentryInitProvider",
+      "class": "io.sentry.android.core.SentryInitProvider",
+      "directive": "remove",
+      "origin": "com.complycube:complycube-sdk:1.7.2!AndroidManifest.xml"
+    },
+    {
+      "authority": "com.complycube.compat.SentryPerformanceProvider",
+      "class": "io.sentry.android.core.SentryPerformanceProvider",
+      "directive": "remove",
+      "origin": "com.complycube:complycube-sdk:1.7.2!AndroidManifest.xml"
+    }
+  ],
+  "metadata": {
+    "META-INF/com/android/build/gradle/aar-metadata.properties": "aarFormatVersion=1.0\naarMetadataVersion=1.0\nminCompileSdk=1\nminCompileSdkExtension=0\nminAndroidGradlePluginVersion=1.0.0\ncoreLibraryDesugaringEnabled=false\n"
+  },
+  "ktor": {
+    "original_classes": 0,
+    "relocated_class_candidates": 1549,
+    "classes_referencing_original_ktor": 0,
+    "classes_with_relocated_reference_candidates": 1609
+  },
+  "service_descriptors": {
+    "com.complycube:complycube-sdk:1.7.2!libs/ktor-shaded-2.3.13.jar!META-INF/services/com.complycube.shaded.ktor.client.HttpClientEngineContainer": "com.complycube.shaded.ktor.client.engine.android.AndroidEngineContainer",
+    "com.complycube:complycube-sdk:1.7.2!libs/ktor-shaded-2.3.13.jar!META-INF/services/com.complycube.shaded.ktor.serialization.kotlinx.KotlinxSerializationExtensionProvider": "com.complycube.shaded.ktor.serialization.kotlinx.json.KotlinxSerializationJsonExtensionProvider\n"
+  },
+  "consumer_rule_files": [
+    "com.complycube:complycube-sdk:1.7.2!libs/ktor-shaded-2.3.13.jar!META-INF/proguard/ktor.pro",
+    "com.complycube:complycube-sdk:1.7.2!proguard.txt"
+  ],
+  "publication": {
+    "pom_sha256": "1568c0c594b076c75de9adaa8b04c00dd5ff1f0788135495c6d5db0254ddf3cb",
+    "pom_dependencies": [
+      {
+        "groupId": "org.jetbrains.kotlin",
+        "artifactId": "kotlin-parcelize-runtime",
+        "version": "1.9.25",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "org.jetbrains.kotlin",
+        "artifactId": "kotlin-stdlib",
+        "version": "1.9.25",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.test",
+        "artifactId": "monitor",
+        "version": "1.7.2",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.core",
+        "artifactId": "core-ktx",
+        "version": "1.10.1",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "org.jetbrains.kotlinx",
+        "artifactId": "kotlinx-coroutines-guava",
+        "version": "1.9.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "com.google.guava",
+        "artifactId": "guava",
+        "version": "33.4.0-android",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "com.googlecode.libphonenumber",
+        "artifactId": "libphonenumber",
+        "version": "9.0.21",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.compose.ui",
+        "artifactId": "ui",
+        "version": "1.7.8",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.compose.ui",
+        "artifactId": "ui-tooling",
+        "version": "1.7.8",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.compose.ui",
+        "artifactId": "ui-graphics",
+        "version": "1.7.8",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.compose.foundation",
+        "artifactId": "foundation",
+        "version": "1.7.8",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.compose.material",
+        "artifactId": "material",
+        "version": "1.7.8",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.compose.material3",
+        "artifactId": "material3",
+        "version": "1.3.2",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.activity",
+        "artifactId": "activity-compose",
+        "version": "1.7.2",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.navigation",
+        "artifactId": "navigation-compose",
+        "version": "2.6.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "io.coil-kt",
+        "artifactId": "coil-compose",
+        "version": "2.0.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "com.airbnb.android",
+        "artifactId": "lottie-compose",
+        "version": "6.0.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.activity",
+        "artifactId": "activity-ktx",
+        "version": "1.7.2",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.fragment",
+        "artifactId": "fragment-ktx",
+        "version": "1.5.7",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.lifecycle",
+        "artifactId": "lifecycle-runtime-ktx",
+        "version": "2.6.1",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.lifecycle",
+        "artifactId": "lifecycle-viewmodel-ktx",
+        "version": "2.6.1",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "com.google.accompanist",
+        "artifactId": "accompanist-permissions",
+        "version": "0.36.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.camera",
+        "artifactId": "camera-core",
+        "version": "1.4.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.camera",
+        "artifactId": "camera-camera2",
+        "version": "1.4.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.camera",
+        "artifactId": "camera-lifecycle",
+        "version": "1.4.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.camera",
+        "artifactId": "camera-video",
+        "version": "1.4.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.camera",
+        "artifactId": "camera-view",
+        "version": "1.4.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.camera",
+        "artifactId": "camera-extensions",
+        "version": "1.4.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "com.google.android.gms",
+        "artifactId": "play-services-mlkit-text-recognition",
+        "version": "19.0.1",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "com.google.android.gms",
+        "artifactId": "play-services-mlkit-face-detection",
+        "version": "17.1.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "com.google.mediapipe",
+        "artifactId": "tasks-vision",
+        "version": "1.0.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.media3",
+        "artifactId": "media3-exoplayer",
+        "version": "1.4.1",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.media3",
+        "artifactId": "media3-ui",
+        "version": "1.4.1",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "com.squareup.okio",
+        "artifactId": "okio",
+        "version": "3.4.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "org.jetbrains.kotlinx",
+        "artifactId": "kotlinx-coroutines-slf4j",
+        "version": "1.9.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "com.auth0.android",
+        "artifactId": "jwtdecode",
+        "version": "2.0.2",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "io.sentry",
+        "artifactId": "sentry-android",
+        "version": "8.20.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "com.segment.analytics.android",
+        "artifactId": "analytics",
+        "version": "4.11.3",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "org.slf4j",
+        "artifactId": "slf4j-simple",
+        "version": "2.0.7",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "com.google.android.libraries.places",
+        "artifactId": "places",
+        "version": "3.5.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "com.scottyab",
+        "artifactId": "rootbeer-lib",
+        "version": "0.1.1",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.autofill",
+        "artifactId": "autofill",
+        "version": "1.1.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "org.jetbrains.kotlinx",
+        "artifactId": "kotlinx-serialization-json",
+        "version": "1.6.3",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "net.openid",
+        "artifactId": "appauth",
+        "version": "0.11.1",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "androidx.browser",
+        "artifactId": "browser",
+        "version": "1.5.0",
+        "scope": "runtime"
+      },
+      {
+        "groupId": "org.jetbrains.kotlin",
+        "artifactId": "kotlin-reflect",
+        "version": "1.8.22",
+        "scope": "runtime"
+      }
+    ],
+    "pom_constraints": [
+      {
+        "groupId": "androidx.compose.material3",
+        "artifactId": "material3",
+        "version": "1.3.2"
+      }
+    ],
+    "module_sha256": "a11ef67f06eb4b6437142e92e9eb0f58990e3b864868f27c0ac5246e2065d7a2",
+    "module_variants": [
+      {
+        "name": "nonNfcReleaseApiElements-published",
+        "attributes": {
+          "com.android.build.api.attributes.ProductFlavor:sdkVersion": "nonNfc",
+          "org.gradle.category": "library",
+          "org.gradle.usage": "java-api",
+          "org.jetbrains.kotlin.platform.type": "androidJvm",
+          "sdkVersion": "nonNfc"
+        },
+        "dependencies": [],
+        "dependencyConstraints": []
+      },
+      {
+        "name": "nonNfcReleaseRuntimeElements-published",
+        "attributes": {
+          "com.android.build.api.attributes.ProductFlavor:sdkVersion": "nonNfc",
+          "org.gradle.category": "library",
+          "org.gradle.usage": "java-runtime",
+          "org.jetbrains.kotlin.platform.type": "androidJvm",
+          "sdkVersion": "nonNfc"
+        },
+        "dependencies": [
+          {
+            "group": "org.jetbrains.kotlin",
+            "module": "kotlin-parcelize-runtime",
+            "version": {
+              "requires": "1.9.25"
+            }
+          },
+          {
+            "group": "org.jetbrains.kotlin",
+            "module": "kotlin-stdlib",
+            "version": {
+              "requires": "1.9.25"
+            }
+          },
+          {
+            "group": "androidx.test",
+            "module": "monitor",
+            "version": {
+              "requires": "1.7.2"
+            }
+          },
+          {
+            "group": "androidx.core",
+            "module": "core-ktx",
+            "version": {
+              "requires": "1.10.1"
+            }
+          },
+          {
+            "group": "org.jetbrains.kotlinx",
+            "module": "kotlinx-coroutines-guava",
+            "version": {
+              "requires": "1.9.0"
+            }
+          },
+          {
+            "group": "com.google.guava",
+            "module": "guava",
+            "version": {
+              "requires": "33.4.0-android"
+            }
+          },
+          {
+            "group": "com.googlecode.libphonenumber",
+            "module": "libphonenumber",
+            "version": {
+              "requires": "9.0.21"
+            }
+          },
+          {
+            "group": "androidx.compose.ui",
+            "module": "ui",
+            "version": {
+              "requires": "1.7.8"
+            }
+          },
+          {
+            "group": "androidx.compose.ui",
+            "module": "ui-tooling",
+            "version": {
+              "requires": "1.7.8"
+            }
+          },
+          {
+            "group": "androidx.compose.ui",
+            "module": "ui-graphics",
+            "version": {
+              "requires": "1.7.8"
+            }
+          },
+          {
+            "group": "androidx.compose.foundation",
+            "module": "foundation",
+            "version": {
+              "requires": "1.7.8"
+            }
+          },
+          {
+            "group": "androidx.compose.material",
+            "module": "material",
+            "version": {
+              "requires": "1.7.8"
+            }
+          },
+          {
+            "group": "androidx.compose.material3",
+            "module": "material3",
+            "version": {
+              "requires": "1.3.2"
+            }
+          },
+          {
+            "group": "androidx.activity",
+            "module": "activity-compose",
+            "version": {
+              "requires": "1.7.2"
+            }
+          },
+          {
+            "group": "androidx.navigation",
+            "module": "navigation-compose",
+            "version": {
+              "requires": "2.6.0"
+            }
+          },
+          {
+            "group": "io.coil-kt",
+            "module": "coil-compose",
+            "version": {
+              "requires": "2.0.0"
+            }
+          },
+          {
+            "group": "com.airbnb.android",
+            "module": "lottie-compose",
+            "version": {
+              "requires": "6.0.0"
+            }
+          },
+          {
+            "group": "androidx.activity",
+            "module": "activity-ktx",
+            "version": {
+              "requires": "1.7.2"
+            }
+          },
+          {
+            "group": "androidx.fragment",
+            "module": "fragment-ktx",
+            "version": {
+              "requires": "1.5.7"
+            }
+          },
+          {
+            "group": "androidx.lifecycle",
+            "module": "lifecycle-runtime-ktx",
+            "version": {
+              "requires": "2.6.1"
+            }
+          },
+          {
+            "group": "androidx.lifecycle",
+            "module": "lifecycle-viewmodel-ktx",
+            "version": {
+              "requires": "2.6.1"
+            }
+          },
+          {
+            "group": "com.google.accompanist",
+            "module": "accompanist-permissions",
+            "version": {
+              "requires": "0.36.0"
+            }
+          },
+          {
+            "group": "androidx.camera",
+            "module": "camera-core",
+            "version": {
+              "requires": "1.4.0"
+            }
+          },
+          {
+            "group": "androidx.camera",
+            "module": "camera-camera2",
+            "version": {
+              "requires": "1.4.0"
+            }
+          },
+          {
+            "group": "androidx.camera",
+            "module": "camera-lifecycle",
+            "version": {
+              "requires": "1.4.0"
+            }
+          },
+          {
+            "group": "androidx.camera",
+            "module": "camera-video",
+            "version": {
+              "requires": "1.4.0"
+            }
+          },
+          {
+            "group": "androidx.camera",
+            "module": "camera-view",
+            "version": {
+              "requires": "1.4.0"
+            }
+          },
+          {
+            "group": "androidx.camera",
+            "module": "camera-extensions",
+            "version": {
+              "requires": "1.4.0"
+            }
+          },
+          {
+            "group": "com.google.android.gms",
+            "module": "play-services-mlkit-text-recognition",
+            "version": {
+              "requires": "19.0.1"
+            }
+          },
+          {
+            "group": "com.google.android.gms",
+            "module": "play-services-mlkit-face-detection",
+            "version": {
+              "requires": "17.1.0"
+            }
+          },
+          {
+            "group": "com.google.mediapipe",
+            "module": "tasks-vision",
+            "version": {
+              "requires": "1.0.0"
+            }
+          },
+          {
+            "group": "androidx.media3",
+            "module": "media3-exoplayer",
+            "version": {
+              "requires": "1.4.1"
+            }
+          },
+          {
+            "group": "androidx.media3",
+            "module": "media3-ui",
+            "version": {
+              "requires": "1.4.1"
+            }
+          },
+          {
+            "group": "com.squareup.okio",
+            "module": "okio",
+            "version": {
+              "requires": "3.4.0"
+            }
+          },
+          {
+            "group": "org.jetbrains.kotlinx",
+            "module": "kotlinx-coroutines-slf4j",
+            "version": {
+              "requires": "1.9.0"
+            }
+          },
+          {
+            "group": "com.auth0.android",
+            "module": "jwtdecode",
+            "version": {
+              "requires": "2.0.2"
+            }
+          },
+          {
+            "group": "io.sentry",
+            "module": "sentry-android",
+            "version": {
+              "requires": "8.20.0"
+            }
+          },
+          {
+            "group": "com.segment.analytics.android",
+            "module": "analytics",
+            "version": {
+              "requires": "4.11.3"
+            }
+          },
+          {
+            "group": "org.slf4j",
+            "module": "slf4j-simple",
+            "version": {
+              "requires": "2.0.7"
+            }
+          },
+          {
+            "group": "com.google.android.libraries.places",
+            "module": "places",
+            "version": {
+              "requires": "3.5.0"
+            }
+          },
+          {
+            "group": "com.scottyab",
+            "module": "rootbeer-lib",
+            "version": {
+              "requires": "0.1.1"
+            }
+          },
+          {
+            "group": "androidx.autofill",
+            "module": "autofill",
+            "version": {
+              "requires": "1.1.0"
+            }
+          },
+          {
+            "group": "org.jetbrains.kotlinx",
+            "module": "kotlinx-serialization-json",
+            "version": {
+              "requires": "1.6.3"
+            }
+          },
+          {
+            "group": "net.openid",
+            "module": "appauth",
+            "version": {
+              "requires": "0.11.1"
+            }
+          },
+          {
+            "group": "androidx.browser",
+            "module": "browser",
+            "version": {
+              "requires": "1.5.0"
+            }
+          },
+          {
+            "group": "org.jetbrains.kotlin",
+            "module": "kotlin-reflect",
+            "version": {
+              "requires": "1.8.22"
+            }
+          }
+        ],
+        "dependencyConstraints": [
+          {
+            "group": "androidx.compose.material3",
+            "module": "material3",
+            "version": {
+              "requires": "1.3.2",
+              "rejects": [
+                "[1.5.0-alpha09,)"
+              ]
+            },
+            "reason": "The ComplyCube SDK is compiled against the Material3 1.3.0..1.5.0-alpha08 ModalBottomSheet ABI. An older Material3 crashes with NoSuchMethodError on rememberModalBottomSheetState; 1.5.0-alpha09 and later removed the ModalBottomSheet-dYc4hso overload the SDK calls (CUBE-991)."
+          }
+        ]
+      },
+      {
+        "name": "nonNfcReleaseSourcesElements-published",
+        "attributes": {
+          "com.android.build.api.attributes.ProductFlavor:sdkVersion": "nonNfc",
+          "org.gradle.category": "documentation",
+          "org.gradle.dependency.bundling": "external",
+          "org.gradle.docstype": "sources",
+          "org.gradle.libraryelements": "jar",
+          "org.gradle.usage": "java-runtime",
+          "org.jetbrains.kotlin.platform.type": "androidJvm",
+          "sdkVersion": "nonNfc"
+        },
+        "dependencies": [],
+        "dependencyConstraints": []
+      }
+    ]
+  },
+  "limits": "Static public artifact inspection only; not runtime compatibility evidence."
+}

@@ -1,0 +1,17 @@
+pluginManagement {
+    def matrix = new groovy.json.JsonSlurper().parse(file('../matrix.json'))
+    def tools = matrix.toolchains['baseline-host']
+    repositories { google(); mavenCentral(); gradlePluginPortal() }
+    plugins {
+        id 'com.android.application' version tools.agp
+        id 'org.jetbrains.kotlin.android' version tools.kotlin
+        
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories { google(); mavenCentral() }
+}
+rootProject.name = 'baseline-host'
+include ':driver'
+project(':driver').projectDir = file('../shared/driver')
